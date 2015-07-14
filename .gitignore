@@ -11,7 +11,10 @@
 /log/*
 !/log/.keep
 *.log
+log/*
 /tmp
+
+generate_models_and_controllers.sh
 
 *.sql
 
