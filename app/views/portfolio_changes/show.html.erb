@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Share:</strong>
+  <%= @portfolio_change.share %>
+</p>
+
+<p>
+  <strong>Transaction type:</strong>
+  <%= @portfolio_change.transaction_type %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @portfolio_change.quantity %>
+</p>
+
+<p>
+  <strong>Price per share:</strong>
+  <%= @portfolio_change.price_per_share %>
+</p>
+
+<p>
+  <strong>Total cost of order:</strong>
+  <%= @portfolio_change.total_cost_of_order %>
+</p>
+
+<p>
+  <strong>When:</strong>
+  <%= @portfolio_change.when %>
+</p>
+
+<%= link_to 'Edit', edit_portfolio_change_path(@portfolio_change) %> |
+<%= link_to 'Back', portfolio_changes_path %>

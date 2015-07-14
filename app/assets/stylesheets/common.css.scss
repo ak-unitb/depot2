@@ -1,0 +1,34 @@
+
+
+.messageDisplay {
+	width: 400px;
+	padding: 30px;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 25px;
+	line-height: 1.4em;
+	text-align: center;
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	margin-left: -230px;
+	border: 1px solid black;
+	box-shadow:8px 8px 8px #666;
+	-moz-box-shadow:8px 8px 8px #666;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	opacity: 0.7;
+}
+.messageDisplay.error {
+  background-color: lightcoral;
+}
+.messageDisplay.success {
+  background-color: lightgreen;
+}
+.messageDisplay.info {
+  background-color: lightgrey;
+}
+.charts {
+  height: 400px;
+  background: #EFEFEF image-url('highstock-loader1.gif') scroll no-repeat center center;
+}

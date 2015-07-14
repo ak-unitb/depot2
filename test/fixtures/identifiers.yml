@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  share_id: 
+  name: MyString
+  provider: MyString
+
+two:
+  share_id: 
+  name: MyString
+  provider: MyString

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @stock_exchange.name %>
+</p>
+
+<p>
+  <strong>Closing time:</strong>
+  <%= @stock_exchange.closing_time %>
+</p>
+
+<p>
+  <strong>Timezone:</strong>
+  <%= @stock_exchange.timezone %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @stock_exchange.location %>
+</p>
+
+<%= link_to 'Edit', edit_stock_exchange_path(@stock_exchange) %> |
+<%= link_to 'Back', stock_exchanges_path %>

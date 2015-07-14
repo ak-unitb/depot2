@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Share:</strong>
+  <%= @identifier.share %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @identifier.name %>
+</p>
+
+<p>
+  <strong>Provider:</strong>
+  <%= @identifier.provider %>
+</p>
+
+<%= link_to 'Edit', edit_identifier_path(@identifier) %> |
+<%= link_to 'Back', identifiers_path %>

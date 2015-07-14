@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Stockexchange:</strong>
+  <%= @stock_exchange_daily_closing_price.stockExchange %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @stock_exchange_daily_closing_price.price %>
+</p>
+
+<p>
+  <strong>When:</strong>
+  <%= @stock_exchange_daily_closing_price.when %>
+</p>
+
+<%= link_to 'Edit', edit_stock_exchange_daily_closing_price_path(@stock_exchange_daily_closing_price) %> |
+<%= link_to 'Back', stock_exchange_daily_closing_prices_path %>

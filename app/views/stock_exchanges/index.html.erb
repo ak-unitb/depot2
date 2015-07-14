@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Stock Exchanges</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Closing time</th>
+      <th>Timezone</th>
+      <th>Location</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stock_exchanges.each do |stock_exchange| %>
+      <tr>
+        <td><%= stock_exchange.name %></td>
+        <td><%= stock_exchange.closing_time %></td>
+        <td><%= stock_exchange.timezone %></td>
+        <td><%= stock_exchange.location %></td>
+        <td><%= link_to 'Show', stock_exchange %></td>
+        <td><%= link_to 'Edit', edit_stock_exchange_path(stock_exchange) %></td>
+        <td><%= link_to 'Destroy', stock_exchange, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stock exchange', new_stock_exchange_path %>

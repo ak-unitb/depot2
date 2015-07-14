@@ -1,0 +1,33 @@
+<%= form_for(@stock_exchange) do |f| %>
+  <% if @stock_exchange.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stock_exchange.errors.count, "error") %> prohibited this stock_exchange from being saved:</h2>
+
+      <ul>
+      <% @stock_exchange.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :closing_time %><br>
+    <%= f.time_select :closing_time %>
+  </div>
+  <div class="field">
+    <%= f.label :timezone %><br>
+    <%= f.text_field :timezone %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br>
+    <%= f.text_field :location %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

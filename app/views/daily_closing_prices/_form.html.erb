@@ -1,0 +1,29 @@
+<%= form_for(@daily_closing_price) do |f| %>
+  <% if @daily_closing_price.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@daily_closing_price.errors.count, "error") %> prohibited this daily_closing_price from being saved:</h2>
+
+      <ul>
+      <% @daily_closing_price.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :share_id %><br>
+    <%= f.text_field :share_id %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :when %><br>
+    <%= f.date_select :when %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

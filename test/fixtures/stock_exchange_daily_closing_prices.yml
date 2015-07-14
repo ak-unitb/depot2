@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stockExchange_id: 
+  price: 9.99
+  when: 2015-07-13
+
+two:
+  stockExchange_id: 
+  price: 9.99
+  when: 2015-07-13

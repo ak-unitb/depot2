@@ -1,0 +1,12 @@
+<ul class="menu">
+	<li><%= link_to 'Home', root_path %></li>
+	<li>
+		<%= link_to 'Aktien', shares_path %>
+		<%= render "shares/menu" %>
+	</li>
+	<li><%= link_to 'Börsen', stock_exchanges_path %></li>
+	<li><%= link_to 'Tagesschlusskurse', daily_closing_prices_path %></li>
+	<li><%= link_to 'Tagesschlusskurse der Börsen', stock_exchange_daily_closing_prices_path %></li>
+	<li><%= link_to 'Aktien-Käufe / -Verkäufe', portfolio_changes_path %></li>
+	<li><%= link_to 'Andere Kennungen der Aktien', identifiers_path %></li>
+</ul>

@@ -1,0 +1,2 @@
+module StockExchangeDailyClosingPricesHelper
+end

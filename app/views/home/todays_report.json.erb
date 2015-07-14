@@ -1,0 +1,34 @@
+({
+ 	"shares": [
+<%
+  @shares.each do |share|
+%>
+		{
+			"name": "<%= share.name %>",
+			"last_closing_price": "<%= number_to_currency share.last_closing_price.price %>",
+			"previous_closing_price": "<%= number_to_currency share.last_closing_price.previous.price %>",
+			"change_absolute": "<%= number_to_currency share.last_closing_price.change_to_previous_absolute %>",
+			"change_percent": "<%= number_to_percentage share.last_closing_price.change_to_previous_in_percent %>",
+			"profit_or_lost_by_current_share_price": "<%= number_to_currency share.profit_or_lost_by_current_share_price %>"
+		},
+
+<%
+  end
+%>
+	],
+ 	"stock_exchanges": [
+	<%
+	  @stock_exchanges.each do |stock_exchange|
+	%>
+		{
+			"name": "<%= stock_exchange.name %>",
+			"last_closing_price": "<%= number_with_delimiter(stock_exchange.last_daily_closing_price.price, :locale => 'de') %>",
+			"previous_closing_price": "<%= number_with_delimiter(stock_exchange.last_daily_closing_price.previous.price, :locale => 'de') %>",
+			"change_absolute": "<%= number_with_delimiter(stock_exchange.last_daily_closing_price.change_to_previous_absolute, :locale => 'de') %>",
+			"change_percent": "<%= number_to_percentage stock_exchange.last_daily_closing_price.change_to_previous_in_percent %>"
+		}
+<%
+  end
+%>
+	]
+});

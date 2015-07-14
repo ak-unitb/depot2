@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  share_id: 
+  transaction_type: MyString
+  quantity: 1
+  price_per_share: 9.99
+  total_cost_of_order: 9.99
+  when: 2015-07-13
+
+two:
+  share_id: 
+  transaction_type: MyString
+  quantity: 1
+  price_per_share: 9.99
+  total_cost_of_order: 9.99
+  when: 2015-07-13

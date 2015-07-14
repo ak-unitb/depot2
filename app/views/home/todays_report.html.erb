@@ -1,0 +1,60 @@
+<ul>
+<%
+  @shares.each do |share|
+%>
+<li id="share-<%=share.id %>" class="infoSliderPart todays share">
+	<div class="infoSliderPartContent">
+		<h2 class="<%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>"><%= link_to share.name, share %></h2>
+		<p class="details">
+			<span class="current-price <%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>">
+				<%= number_to_currency share.last_closing_price.price %>
+			</span>
+			<span class="previous-price">vorletzter: <%= number_to_currency share.last_closing_price.previous.price %></span>
+			<span class="change-percent">
+				<%= number_to_percentage share.last_closing_price.change_to_previous_in_percent %> 
+				<span class="change-absolute">(<%= number_to_currency share.last_closing_price.change_to_previous_absolute %>)</span>
+			</span>
+			<span class="profit-or-lost <%= css_class_for_daily_closing_price(share.profit_or_lost_by_current_share_price) %>"><%= number_to_currency share.profit_or_lost_by_current_share_price %></span>
+		</p>
+	</div>
+</li>
+<%
+  end
+%>
+<%
+  @stock_exchanges.each do |stock_exchange|
+%>
+<li id="stock_exchange-<%=stock_exchange.id %>" class="infoSliderPart todays stock-exchange">
+	<div class="infoSliderPartContent">
+		<h2><%= link_to stock_exchange.name, stock_exchange %></h2>
+		<p class="details">
+			<span class="current-price <%= css_class_for_daily_closing_price(stock_exchange.last_daily_closing_price.change_to_previous_absolute) %>"><%= number_with_delimiter(stock_exchange.last_daily_closing_price.price) %></span>
+			<span class="previous-price"><%= number_with_delimiter(stock_exchange.last_daily_closing_price.previous.price) %></span>
+			<span class="change-percent">
+				<%= number_to_percentage stock_exchange.last_daily_closing_price.change_to_previous_in_percent %>
+				<span class="change-absolute">(<%= number_with_delimiter(stock_exchange.last_daily_closing_price.change_to_previous_absolute) %>)</span>
+			</span>
+		</p>
+	</div>
+</li>
+<%
+  end
+%>
+<li id="depot" class="infoSliderPart todays depot">
+	<div class="infoSliderPartContent">
+		<h2><%= @depot_values[:name] %></h2>
+		<p class="details">
+			<span class="current-price <%= css_class_for_daily_closing_price(@depot_values[:change_absolute]) %>">
+				<%= number_to_currency @depot_values[:current_value] %>
+			</span>
+			<span class="previous-price"><%= number_to_currency @depot_values[:previous_value] %></span>
+			<span class="change-percent">
+				<%= number_to_percentage @depot_values[:change_percent] %>
+				<span class="change-absolute">(<%= number_to_currency @depot_values[:change_absolute] %>)</span>
+			</span>
+			<span class="profit-or-lost <%= css_class_for_daily_closing_price(@depot_values[:change_absolute]) %>"><%= number_to_currency @depot_values[:profit_or_lost] %></span>
+			<span class="yearly_average_interest">Ø jährlicher Zinseszins: <%= number_to_percentage @average_yearly_interest %></span>
+		</p>
+	</div>
+</li>
+</ul>

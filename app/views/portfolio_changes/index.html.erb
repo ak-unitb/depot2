@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Portfolio Changes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Share</th>
+      <th>Transaction type</th>
+      <th>Quantity</th>
+      <th>Price per share</th>
+      <th>Total cost of order</th>
+      <th>When</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @portfolio_changes.each do |portfolio_change| %>
+      <tr>
+        <td><%= portfolio_change.share %></td>
+        <td><%= portfolio_change.transaction_type %></td>
+        <td><%= portfolio_change.quantity %></td>
+        <td><%= portfolio_change.price_per_share %></td>
+        <td><%= portfolio_change.total_cost_of_order %></td>
+        <td><%= portfolio_change.when %></td>
+        <td><%= link_to 'Show', portfolio_change %></td>
+        <td><%= link_to 'Edit', edit_portfolio_change_path(portfolio_change) %></td>
+        <td><%= link_to 'Destroy', portfolio_change, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Portfolio change', new_portfolio_change_path %>

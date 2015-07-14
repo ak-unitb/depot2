@@ -1,0 +1,41 @@
+<%= form_for(@portfolio_change) do |f| %>
+  <% if @portfolio_change.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@portfolio_change.errors.count, "error") %> prohibited this portfolio_change from being saved:</h2>
+
+      <ul>
+      <% @portfolio_change.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :share_id %><br>
+    <%= f.text_field :share_id %>
+  </div>
+  <div class="field">
+    <%= f.label :transaction_type %><br>
+    <%= f.text_field :transaction_type %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
+  </div>
+  <div class="field">
+    <%= f.label :price_per_share %><br>
+    <%= f.text_field :price_per_share %>
+  </div>
+  <div class="field">
+    <%= f.label :total_cost_of_order %><br>
+    <%= f.text_field :total_cost_of_order %>
+  </div>
+  <div class="field">
+    <%= f.label :when %><br>
+    <%= f.date_select :when %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module DailyClosingPricesHelper
+end

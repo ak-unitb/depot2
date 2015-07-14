@@ -1,0 +1,95 @@
+{
+  "title": {
+    "text": "Depotwert und <%= @stock_exchange.name %>"
+  },
+  "yAxis": [
+    {
+      "title": {
+        "text": "Depotwert in EUR",
+        "style": {
+          "color": "#AA4643"
+        }
+      }
+    },
+    {
+      "title": {
+        "text": "Kurs des Index",
+        "style": {
+          "color": "#4572A7"
+        }
+      }
+    }
+  ],
+  "series": [
+    {
+      "name": "<%= @stock_exchange.name %>",
+      "data": [
+        <% @stock_exchange_daily_closing_prices.each_with_index do |daily_closing_price, idx| %>
+        [ <%= daily_closing_price.when.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= idx != @stock_exchange_daily_closing_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "type": "area",
+      "threshold": 0,
+      "tooltip": {
+        "yDecimals": 2,
+        "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y}</b><br/>"
+      },
+      "color": "#4572A7",
+      "fillColor": {
+        "linearGradient": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 0,
+          "y2": 1
+        },
+        "stops": [[0, "#4572A7"], [1, "rgba(0,0,0,0)"]]
+      }
+    },
+    {
+      "name": "Depotwert in EUR",
+      "data": [
+        <% @depot_total_values.sort.each_with_index do |depot_total_value, idx| %>
+        [ <%= depot_total_value[0] %>, <%= depot_total_value[1].to_f %> ]<%= idx != @depot_total_values.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "id": "total_prices",
+      "type": "line",
+      "color": "#AA4643",
+      "tooltip": {
+        "yDecimals": 2,
+        "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y} EUR</b><br/>"
+      }
+    },
+    {
+      "name": "Käufe / Verkäufe",
+      "type" : "flags",
+      "data": [
+        <% @portfolio_changes.each_with_index do |portfolio_change, idx|  %>
+        {
+          "x": <%= portfolio_change.when.to_time.utc.to_i * 1000 %>,
+          "title": "<%= portfolio_change.transaction_type == "buy" ? "K" : "V" %>",
+          "text" : "<%= portfolio_change.transaction_type == "buy" ? "Kauf" : "Verkauf" %> von <%= portfolio_change.quantity %> <%= portfolio_change.share.name %> Aktien für je <%= number_to_currency portfolio_change.price_per_share, :precision => 2, :unit => portfolio_change.share.currency %>"
+        }<%= idx != @portfolio_changes.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "onSeries": "total_prices",
+      "showInLegend": false,
+      "shape": "circlepin",
+      "width": 24
+    },
+    {
+      "id": "extremes",
+      "name": "extremes",
+      "type": "flags",
+      "data": [],
+      "onSeries": "total_prices",
+      "showInLegend": false,
+      "shape": "squarepin",
+      "marker": {
+        "lineColor": "#000000",
+        "lineWidth": 2,
+        "symbol": "triangle-down"
+      }
+    }
+  ]
+}

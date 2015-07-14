@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  share_id: 
+  price: 9.99
+  when: 2015-07-13
+
+two:
+  share_id: 
+  price: 9.99
+  when: 2015-07-13

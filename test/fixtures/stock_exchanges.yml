@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  closing_time: 2015-07-13 05:03:12
+  timezone: MyString
+  location: MyString
+
+two:
+  name: MyString
+  closing_time: 2015-07-13 05:03:12
+  timezone: MyString
+  location: MyString

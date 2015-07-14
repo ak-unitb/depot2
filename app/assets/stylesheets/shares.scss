@@ -1,0 +1,24 @@
+// Place all the styles related to the Shares controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.shares.show {
+  p.change-percent span,
+  p.profit-or-lost span {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  table tbody tr:hover {
+    background-color: #DFDCB0;
+  }
+  table tbody tr td form div.field {
+    float: right;
+    input[type=text] {
+      text-align: right;
+    }
+  }
+  #share_chart_container {
+    height: 500px;
+    min-width: 600px;
+  }
+}

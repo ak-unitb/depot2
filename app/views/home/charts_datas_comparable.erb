@@ -1,0 +1,19 @@
+{
+  "title": {
+    "text": "Depotwert in EUR"
+  },
+  "series": [
+    {
+      "name": "Depotwert in EUR",
+      "data": <%= @depot_total_values.sort.to_a.to_json %>
+    },
+    {
+      "name": "<%= @stock_exchange.name %>",
+      "data": [
+        <% @stock_exchange_daily_closing_prices.each_with_index do |daily_closing_price, idx| %>
+        [ <%= daily_closing_price.when.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= idx != @stock_exchange_daily_closing_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ]
+    }
+  ]
+}

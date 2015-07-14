@@ -1,0 +1,150 @@
+<h1>Mein Portfolio</h1>
+
+
+<div id="infoSlider" class="flipster">
+</div>
+
+
+<table>
+	<thead>
+		<tr>
+			<th class="invisible"></th>
+<% @shares.each do |share| %>
+			<th id="share_<%= share.id %>" title="<%= share.isin %>" class="currency"><%= link_to share.name, share %></th>
+<% end %>
+		</tr>
+	</thead>
+	<tbody>
+<% @daily_closing_prices_overview.each_with_index do |daily_closing_price,index| %>
+	<% if index % @shares_size == 0 %>
+		<% if index != 0 %>
+		</tr>
+		<% end %>
+		<tr>
+			<th><%= daily_closing_price.when.strftime('%a') %> <%= daily_closing_price.when.to_s %></th>
+	<% end %>
+			<td id="daily_closing_price_<%= daily_closing_price.id %>" class="currency">
+				<span class="value"><%= number_to_currency daily_closing_price.price, locale: :de %></span>
+				<div class="actions inline">
+					<%= link_to "e", Rails.application.routes.url_helpers.edit_inline_daily_closing_price_path( daily_closing_price.id ), :class => 'xhr inlineform edit' %>
+				</div>
+				<div class="info">
+					<span class="daily_closing_price_change <%= css_class_for_daily_closing_price(daily_closing_price.change_to_previous_absolute) %>" title="Veränderung zum Vortag: Absolut: <%= number_to_currency daily_closing_price.change_to_previous_absolute, :unit => daily_closing_price.currency %> | In Prozent: <%= number_to_percentage daily_closing_price.change_to_previous_in_percent, :precision => 3 %>"></span>
+				</div>
+			</td>
+	<% if index % @shares_size == @shares_size -1 %>
+		</tr>
+	<% end %>
+<% end %>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<table>
+	<thead>
+		<tr class="odd">
+			<th>Aktie</th>
+			<th class="currency">Durchschnitt Preis</th>
+			<th class="currency">gesamter Kaufpreis</th>
+			<th class="currency">gesamte Kosten</th>
+			<th class="currency">(Gewinn / Verlust zum aktuellen Kurs)</th>
+		</tr>
+		<tr class="even">
+			<th class="number">Stück</th>
+			<th class="currency">Aktueller Kurs</th>
+			<th class="currency">Aktueller Gesamtwert</th>
+			<th class="percentage">Verhältnis Kaufpreis zu aktuellem Kurs in %</th>
+			<th class="currency">Gewinn / Verlust zum gesamten Kaufpreis</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @shares.each do |share| %>
+			<tr class="odd">
+				<td><%= share.name_isin %></td>
+				<td class="currency"><%= number_to_currency share.portfolio_sums[:average_price], :precision => 3, :unit => share.currency %></td>
+				<td class="currency"><%= number_to_currency share.portfolio_sums[:total_price], :precision => 2, :unit => share.currency %></td>
+				<td class="currency"><%= number_to_currency share.portfolio_sums[:total_cost_of_orders], :precision => 2, :unit => share.currency %></td>
+				<td class="currency">(<%= number_to_currency share.profit_or_lost_by_current_share_price, :precision => 2, :unit => share.currency %>)</td>
+			</tr>
+			<tr class="even">
+				<td class="number"><%= share.portfolio_sums[:total_quantity] %></td>
+				<td class="currency"><%= number_to_currency share.last_closing_price.price, :precision => 3, :unit => share.currency %></td>
+				<td class="currency"><%= number_to_currency share.last_total_value, :precision => 2, :unit => share.currency %></td>
+				<td class="percentage">
+					<span class="value_to_costs_relation <%= css_class_for_relation_current_value_to_costs_in_percent(share.relation_current_value_to_costs_in_percent) %>">
+						<%= number_to_percentage share.relation_current_value_to_costs_in_percent, :precision => 3 %>
+					</span>
+				</td>
+				<td class="currency"><%= number_to_currency share.profit_or_lost_by_total_costs, :precision => 2, :unit => share.currency %></td>
+			</tr>
+		<% end %>
+	</tbody>
+	<tfoot>
+		<tr class="odd">
+			<td></td>
+			<td></td>
+			<td class="currency"><%= number_to_currency @sums_of_share_values[:total_price], :precision => 2, :unit => @shares[0].currency %></td>
+			<td class="currency"><%= number_to_currency @sums_of_share_values[:total_cost_of_orders], :precision => 2, :unit => @shares[0].currency %></td>
+			<td class="currency">(<%= number_to_currency @sums_of_share_values[:profit_or_lost_by_current_share_price], :precision => 2, :unit => @shares[0].currency %> [<%= number_to_percentage @sums_of_share_values[:profit_or_lost_by_current_share_price_in_percent], :precision => 2 %>])</td>
+		</tr>
+		<tr class="even">
+			<td></td>
+			<td></td>
+			<td class="currency"><%= number_to_currency @sums_of_share_values[:last_total_value], :precision => 2, :unit => @shares[0].currency %></td>
+			<td class="currency">
+				davon Gebühren: 
+				(<%= number_to_currency @sums_of_share_values[:costs_of_taxes_absolute], :precision => 2, :unit => @shares[0].currency %>)
+				<%= number_to_percentage @sums_of_share_values[:costs_of_taxes_in_percent], :precision => 2 %>
+			</td>
+			<td class="currency"><strong><%= number_to_currency @sums_of_share_values[:profit_or_lost_by_total_costs], :precision => 2, :unit => @shares[0].currency %> [<%= number_to_percentage @sums_of_share_values[:profit_or_lost_by_total_costs_in_percent], :precision => 2 %>]</strong></td>
+		</tr>
+	</tfoot>
+</table>
+
+<p>&nbsp;</p>
+
+<div id="home_historical_chart_container" class="charts"></div>
+
+<p>&nbsp;</p>
+
+<div id="home_historical_compare_chart_container" class="charts"></div>
+
+<p>&nbsp;</p>
+
+<div id="home_historical_performance_chart_container" class="charts"></div>
+
+<p>&nbsp;</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Aktie</th>
+			<th>Menge bei gleicher Investition</th>
+			<th>Summe Kaufpreis Netto</th>
+			<th>Kaufpreis Ø pro Aktie nach Kauf</th>
+			<th>Veränderung Kaufpreis Ø in €</th>
+			<th>Veränderung Kaufpreis Ø in %</th>
+			<th>Anzahl nach Kauf</th>
+			<th>Verkaufswert nach Kauf</th>
+			<th>Differenz Kaufpreis gesamt zu Gesamtwert</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @shares.each_with_index do |share,idx| %>
+			<tr class="<%= idx % 2 == 1 ? 'odd' : 'even' %>">
+				<th><%= share.name_isin %></th>
+				<td class="number"><%= share.notional_buy.quantity.to_i %></td>
+				<td class="currency"><%= number_to_currency share.notional_buy.total_price_of_investment, :unit => share.currency, :precision => 2 %></td>
+				<td class="currency"><%= number_to_currency share.notional_buy.price_per_share, :unit => share.currency, :precision => 3 %></td>
+				<td class="currency"><strong><%= number_to_currency share.notional_buy.change_of_average_price_in_currency, :unit => share.currency, :precision => 2 %></strong></td>
+				<td class="percentage"><strong><%= number_to_percentage share.notional_buy.change_of_average_price_in_percent, :precision => 3 %></strong></td>
+				<td class="number"><%= share.notional_buy.quantity_after.to_i %></td>
+				<td class="currency"><%= number_to_currency share.notional_buy.total_value_after, :unit => share.currency, :precision => 2 %></td>
+				<td class="currency"><%= number_to_currency share.notional_buy.difference_of_total_price_to_total_value, :unit => share.currency, :precision => 2 %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>

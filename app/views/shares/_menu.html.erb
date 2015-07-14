@@ -1,0 +1,5 @@
+<ul>
+	<% @shares.each do |share| %>
+	<li><%= link_to share.name_isin, share %></li>
+	<% end %>
+</ul>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Share:</strong>
+  <%= @daily_closing_price.share %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @daily_closing_price.price %>
+</p>
+
+<p>
+  <strong>When:</strong>
+  <%= @daily_closing_price.when %>
+</p>
+
+<%= link_to 'Edit', edit_daily_closing_price_path(@daily_closing_price) %> |
+<%= link_to 'Back', daily_closing_prices_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  isin: MyString
+  name: MyString
+  currency: MyString
+  stock_exchange_id: 
+
+two:
+  isin: MyString
+  name: MyString
+  currency: MyString
+  stock_exchange_id: 

@@ -1,0 +1,275 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+table {
+  border-collapse: separate;
+  border-spacing: 2px 3px;
+  width: 100%;
+  thead {
+    tr {
+      th {
+        border: 1px solid black;
+        border-top: none;
+        padding: 0 5px;
+        text-align: left;
+      }
+      th.invisible {
+        border: none;
+      }
+      th.currency {
+        text-align: right;
+        white-space: nowrap;
+      }
+      th.percentage {
+        @extend th.currency;
+      }
+      th.number {
+        @extend th.currency;
+      }
+    }
+    tr.odd {
+      background-color: #DDD;
+      th {
+        border-bottom: none;
+        border-spacing: 0px;
+        padding: 0 35px 0 5px;
+      }
+    }
+    tr.even {
+      background-color: transparent;
+    }
+  }
+  tbody {
+    tr {
+      th {
+        border: 1px solid black;
+        border-top: none;
+        border-right: none;
+        padding: 0 5px;
+        text-align: left;
+      }
+      td {
+        border: 2px outset gray;
+        border-top: none;
+        border-right: none;
+        padding: 0 5px;
+        form {
+          white-space: nowrap;
+          div.field {
+            float: left;
+            margin-bottom: 1px;
+            input[type=text] {
+              font-size: 8px;
+              border: 0 inset white;
+              background-color: lightgrey;
+            }
+            input[type=text]:focus {
+              background-color: lightgreen;
+            }
+          }
+          div.actions {
+            input[type=submit] {
+              background: none;
+              border: none;
+              display: block;
+              font-size: 13px;
+              padding: 0;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+      td.currency {
+        text-align: right;
+        white-space: nowrap;
+        input[type=text] {
+          width: 46px;
+          float: left;
+        }
+        input[type=radio] {
+          float: left;
+        }
+        span.value {
+          float: left;
+        }
+        div.info {
+          float: right;
+          padding: 0 0 0 0.5em;
+          margin-bottom: 1px;
+        }
+        div.info span.daily_closing_price_change {
+          display: inline-block;
+          width: 1em;
+        }
+        div.info span.daily_closing_price_change:before {
+          content: '- ';
+        }
+        div.info span.daily_closing_price_change.plus:before {
+          content: 'u';
+          color: green;
+        }
+        div.info span.daily_closing_price_change.minus:before {
+          content: 'd';
+          color: red;
+        }
+        div.actions {
+          float: right;
+          padding: 0 0 0 0.5em;
+          margin-bottom: 1px;
+        }
+      }
+      td.percentage {
+        @extend td.currency;
+        span.value_to_costs_relation {
+          font-weight: bold;
+        }
+        span.value_to_costs_relation.bad-extra {
+          color: #F00;
+        }
+        span.value_to_costs_relation.bad {
+          color: #B30;
+        }
+        span.value_to_costs_relation.good {
+          color: #363;
+        }
+        span.value_to_costs_relation.good-extra {
+          color: #0B0;
+        }
+      }
+      td.number {
+        @extend td.currency;
+      }
+    }
+    tr.odd {
+      background-color: #DDD;      
+      td {
+        border-bottom: none;
+        padding: 0 35px 0 5px;
+      }
+    }
+    tr.even {
+      background-color: transparent;
+    }
+  }
+  tfoot {
+    @extend tbody;
+    margin-top: 100px;
+    tr {
+      background-color: #EEE;
+      td {
+
+      }
+    }
+    tr.odd {
+      td {
+        border-top: 2px dotted #000;        
+      }
+    }
+  }
+}
+
+/*home/todays_report.html*/
+
+#infoSlider {
+	height: 250px;
+	margin: 0 0 25px 0;
+	min-width: 150px;
+	width: 65%;
+	text-align: center;
+	padding: 0;
+	overflow: hidden;
+	
+	.infoSliderPart .infoSliderPartContent {
+		height: 176px;
+		margin: 0;
+		width: 140px;
+		
+		h2 {
+			background-color: rgba(0,0,0,0.5);
+			border: 1px solid #111;
+			border-radius: 15px;
+			color: #CCC;
+			padding: 10px;
+
+			&.plus {
+				background-color: rgba(10, 137, 10,0.5);
+				color: #111;
+				
+				a {
+					color: #111;
+				}
+			}
+			&.minus {
+				background-color: rgba(158, 26, 26,0.5);
+				color: #111;
+				
+				a {
+					color: #111;
+				}
+			}
+			
+			a {
+				text-decoration: none;
+				color: #CCC;
+				
+				&:hover {
+					background: none;
+				}
+			}
+		}
+		.details {
+			background-color: rgba(219,219,219,0.5);
+			padding: 10px;
+
+			span {
+				/*background-color: rgba(0,0,0,0.8);
+				border-radius: 25px;*/
+				color: #999;
+				display: block;
+				line-height: 1.8em;
+				width: 120px;
+				padding: 0 0;
+				margin: 0 0 10px 0;
+			
+				&.plus {
+					color: green;
+				}
+				&.minus {
+					color: red;
+				}
+			
+				&.current-price {
+					background: none;
+					font-size: 18px;
+				}
+				&.previous-price {
+					text-align: right;
+					margin: 0;
+					display: none;
+				}
+				&.change-percent {
+					font-weight: bold;
+					font-size: 12px;
+				}
+				&.change-absolute {
+					display: inline;
+					font-weight: normal;
+					font-size: 10px;
+				}
+			
+				span {
+					background: none;
+					border-radius: 0;
+					padding: 0;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+

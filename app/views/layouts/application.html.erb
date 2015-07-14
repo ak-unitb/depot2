@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Depot - <%= params[:controller] %> -> <%= params[:action] %></title>
+		<%= stylesheet_link_tag    "application" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body class="<%= params[:controller] %> <%= params[:action] %>">
+	<%= render "shared/menu" %>
+	<%= yield %>
+
+</body>
+</html>

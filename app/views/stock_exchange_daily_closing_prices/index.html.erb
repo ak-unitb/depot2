@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Stock Exchange Daily Closing Prices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stockexchange</th>
+      <th>Price</th>
+      <th>When</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stock_exchange_daily_closing_prices.each do |stock_exchange_daily_closing_price| %>
+      <tr>
+        <td><%= stock_exchange_daily_closing_price.stockExchange %></td>
+        <td><%= stock_exchange_daily_closing_price.price %></td>
+        <td><%= stock_exchange_daily_closing_price.when %></td>
+        <td><%= link_to 'Show', stock_exchange_daily_closing_price %></td>
+        <td><%= link_to 'Edit', edit_stock_exchange_daily_closing_price_path(stock_exchange_daily_closing_price) %></td>
+        <td><%= link_to 'Destroy', stock_exchange_daily_closing_price, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stock exchange daily closing price', new_stock_exchange_daily_closing_price_path %>
