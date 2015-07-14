@@ -12,12 +12,12 @@ $ ->
       #console.log($('#infoSlider'), $('#infoSlider').flipster);
       $('#infoSlider').flipster({ start: 0 })
       
-      window.setInterval(
-        () ->
-          $('#infoSlider').flipster('jump', 'right')
-          false
-        10000
-      )
+      #window.setInterval(
+      #  () ->
+      #    $('#infoSlider').flipster('jump', 'right')
+      #    false
+      #  10000
+      #)
       false
     error: (jqXHR, textStatus, errorThrown) -> alert("Error!" + errorThrown)
 
