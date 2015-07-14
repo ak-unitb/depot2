@@ -1,13 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#stock_exchange = StockExchange.create({ id: 1, name: 'XETRA', closing_time: '18:00:00', timezone: 'GMT+2', location: 'Germany, Frankfurt/Main' })
 
-one:
-  name: MyString
-  closing_time: 2015-07-13 05:03:12
-  timezone: MyString
-  location: MyString
-
-two:
-  name: MyString
-  closing_time: 2015-07-13 05:03:12
-  timezone: MyString
-  location: MyString
+xetra:
+  name: XETRA
+  closing_time: 18:00:00
+  timezone: GMT+2
+  location: Germany, Frankfurt/Main

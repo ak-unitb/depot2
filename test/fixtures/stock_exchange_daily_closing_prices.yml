@@ -1,11 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  stockExchange_id: 
-  price: 9.99
-  when: 2015-07-13
+  stockExchange: xetra
+  price: 6048.30
+  when: 2010-01-04
 
 two:
-  stockExchange_id: 
-  price: 9.99
-  when: 2015-07-13
+  stockExchange: xetra
+  price: 6031.86
+  when: 2010-01-05
+
+three:
+  stockExchange: xetra
+  price: 6034.33
+  when: 2010-01-06
+
+four:
+  stockExchange: xetra
+  price: 6019.36
+  when: 2010-01-07
+
+five:
+  stockExchange: xetra
+  price: 6037.61
+  when: 2010-01-08
+
+six:
+  stockExchange: xetra
+  price: 6040.50
+  when: 2010-01-11

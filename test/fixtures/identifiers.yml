@@ -1,11 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  share_id: 
-  name: MyString
-  provider: MyString
+id_bmw_xetra:
+  share_id: 1
+  name: BMW
+  provider: XETRA
 
-two:
-  share_id: 
-  name: MyString
-  provider: MyString
+id_eon_xetra:
+  share_id: 2
+  name: EOAN
+  provider: XETRA
+
+id_bmw_yahoo:
+  share_id: 1
+  name: BMW.DE
+  provider: Finance.Yahoo.com
+
+id_eon_yahoo:
+  share_id: 2
+  name: EOAN.DE
+  provider: Finance.Yahoo.com
+
+id_bmw_wkn:
+  share_id: 1
+  name: 519000
+  provider: WKN
+
+id_eon_wkn:
+  share_id: 2
+  name: ENAG99
+  provider: WKN

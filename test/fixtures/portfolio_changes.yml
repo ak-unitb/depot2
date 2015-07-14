@@ -1,17 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  share_id: 
-  transaction_type: MyString
-  quantity: 1
-  price_per_share: 9.99
-  total_cost_of_order: 9.99
-  when: 2015-07-13
+  share: bmw
+  transaction_type: buy
+  quantity: 20
+  price_per_share: 21.300
+  total_cost_of_order: -458.59
+  when: 2008-10-13
 
 two:
-  share_id: 
-  transaction_type: MyString
-  quantity: 1
-  price_per_share: 9.99
-  total_cost_of_order: 9.99
-  when: 2015-07-13
+  share: eon
+  transaction_type: buy
+  quantity: 32
+  price_per_share: 28.660
+  total_cost_of_order: -949.71
+  when: 2008-10-13
+
+three:
+  share: eon
+  transaction_type: buy
+  quantity: 63
+  price_per_share: 15.255
+  total_cost_of_order: -983.66
+  when: 2011-09-19

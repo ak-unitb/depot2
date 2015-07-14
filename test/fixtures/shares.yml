@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  isin: MyString
-  name: MyString
-  currency: MyString
-  stock_exchange_id: 
+bmw:
+  isin: DE0005190003
+  name: BMW
+  currency: EUR
+  stockExchange: xetra
 
-two:
-  isin: MyString
-  name: MyString
-  currency: MyString
-  stock_exchange_id: 
+eon:
+  isin: DE000ENAG999
+  name: E.ON
+  currency: EUR
+  stockExchange: xetra
