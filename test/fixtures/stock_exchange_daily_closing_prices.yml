@@ -1,31 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+sedcp_xetra_1:
   stockExchange: xetra
   price: 6048.30
   when: 2010-01-04
 
-two:
+sedcp_xetra_2:
   stockExchange: xetra
   price: 6031.86
   when: 2010-01-05
 
-three:
+sedcp_xetra_3:
   stockExchange: xetra
   price: 6034.33
   when: 2010-01-06
 
-four:
+sedcp_xetra_4:
   stockExchange: xetra
   price: 6019.36
   when: 2010-01-07
 
-five:
+sedcp_xetra_5:
   stockExchange: xetra
   price: 6037.61
   when: 2010-01-08
 
-six:
+sedcp_xetra_6:
   stockExchange: xetra
   price: 6040.50
   when: 2010-01-11

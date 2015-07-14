@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+pc_bmw:
   share: bmw
   transaction_type: buy
   quantity: 20
@@ -8,7 +8,7 @@ one:
   total_cost_of_order: -458.59
   when: 2008-10-13
 
-two:
+pc_eon_1:
   share: eon
   transaction_type: buy
   quantity: 32
@@ -16,7 +16,7 @@ two:
   total_cost_of_order: -949.71
   when: 2008-10-13
 
-three:
+pc_eon_2:
   share: eon
   transaction_type: buy
   quantity: 63
