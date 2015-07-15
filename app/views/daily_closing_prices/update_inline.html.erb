@@ -1,0 +1,7 @@
+<span class="value"><%= number_to_currency @daily_closing_price.price %></span>
+<div class="actions inline">
+	<%= link_to "e", Rails.application.routes.url_helpers.edit_inline_daily_closing_price_path( @daily_closing_price.id ), :class => 'xhr inlineform edit' %>
+</div>
+<div class="info">
+	<span class="daily_closing_price_change <%= css_class_for_daily_closing_price(@daily_closing_price.change_to_previous_absolute) %>" title="Veränderung zum Vortag: Absolut: <%= number_to_currency @daily_closing_price.change_to_previous_absolute, :unit => @daily_closing_price.share.currency %> | In Prozent: <%= number_to_percentage @daily_closing_price.change_to_previous_in_percent, :precision => 3 %>"></span>
+</div>

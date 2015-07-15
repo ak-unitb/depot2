@@ -21,7 +21,7 @@
 		</tr>
 		<% end %>
 		<tr>
-			<th><%= daily_closing_price.when.strftime('%a') %> <%= daily_closing_price.when.to_s %></th>
+			<th><%= daily_closing_price.date_of_day.strftime('%a') %> <%= daily_closing_price.date_of_day.to_s %></th>
 	<% end %>
 			<td id="daily_closing_price_<%= daily_closing_price.id %>" class="currency">
 				<span class="value"><%= number_to_currency daily_closing_price.price, locale: :de %></span>
@@ -69,7 +69,13 @@
 			</tr>
 			<tr class="even">
 				<td class="number"><%= share.portfolio_sums[:total_quantity] %></td>
-				<td class="currency"><%= number_to_currency share.last_closing_price.price, :precision => 3, :unit => share.currency %></td>
+				<td class="currency">
+					<% if !share.last_closing_price.nil? then %>
+						<%= number_to_currency share.last_closing_price.price, :precision => 3, :unit => share.currency %>
+					<% else %>
+						&lt;N/A&gt;
+					<% end %>
+				</td>
 				<td class="currency"><%= number_to_currency share.last_total_value, :precision => 2, :unit => share.currency %></td>
 				<td class="percentage">
 					<span class="value_to_costs_relation <%= css_class_for_relation_current_value_to_costs_in_percent(share.relation_current_value_to_costs_in_percent) %>">

@@ -27,8 +27,8 @@ Rails.application.routes.draw do
   resources :identifiers
   resources :daily_closing_prices do
     #collection do
-      #get 'new_multiple', :on => :collection
-      #post 'create_multiple', :on => :collection
+      get 'new_multiple', :on => :collection
+      post 'create_multiple', :on => :collection
       get 'edit_inline', :on => :member
       put 'update_inline', :on => :member
     #end

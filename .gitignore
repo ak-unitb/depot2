@@ -15,7 +15,7 @@ log/*
 /tmp
 
 generate_models_and_controllers.sh
-
+*.sqlite3
 *.sql
 
 .sass-cache/

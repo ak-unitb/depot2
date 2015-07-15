@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :stockExchange_id %><br>
-    <%= f.text_field :stockExchange_id %>
+    <%= f.label :stock_exchange %><br>
+    <%= collection_select( :stock_exchange_daily_closing_price, :stock_exchange_id, StockExchange.all, :id, :name ) %>
   </div>
   <div class="field">
     <%= f.label :price %><br>
     <%= f.text_field :price %>
   </div>
   <div class="field">
-    <%= f.label :when %><br>
-    <%= f.date_select :when %>
+    <%= f.label :date_of_day %><br>
+    <%= f.date_select :date_of_day %>
   </div>
   <div class="actions">
     <%= f.submit %>

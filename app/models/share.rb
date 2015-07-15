@@ -5,7 +5,7 @@ class Share < ActiveRecord::Base
   has_many :identifiers
   has_many :portfolio_changes
 
-  has_one :last_daily_closing_price, -> { order('daily_closing_prices.when desc') }, class_name: 'DailyClosingPrice'
+  has_one :last_daily_closing_price, -> { order('daily_closing_prices.date_of_day DESC') }, class_name: 'DailyClosingPrice'
   has_one :max_daily_closing_price, -> { order('daily_closing_prices.price DESC') }, class_name: 'DailyClosingPrice'
   has_one :min_daily_closing_price, -> { order('daily_closing_prices.price ASC') }, class_name: 'DailyClosingPrice'
 
@@ -28,7 +28,7 @@ class Share < ActiveRecord::Base
     #     SUM(`price_per_share`*`quantity`)/SUM(`quantity`) as `average_price_per_share`,
     #     SUM(`total_cost_of_order`)  as `total_cost_of_orders`
     # FROM `portfolio_changes`
-    # WHERE `when` <= <time>
+    # WHERE `date_of_day` <= <time>
     # GROUP BY share_id
     @portfolio_sums = {
       :total_quantity => 0,
@@ -37,7 +37,7 @@ class Share < ActiveRecord::Base
       :total_cost_of_orders => 0
     }
     portfolio_changes.each { |pc|
-      if pc.when <= time.to_date
+      if pc.date_of_day <= time.to_date
         @portfolio_sums[:total_quantity] += pc.quantity
         @portfolio_sums[:total_price] += pc.price_per_share * pc.quantity
         @portfolio_sums[:total_cost_of_orders] += pc.total_cost_of_order
@@ -65,23 +65,35 @@ class Share < ActiveRecord::Base
   end
   
   def max_daily_closing_price_since(date)
-    daily_closing_prices.where("`daily_closing_prices`.`when` > '"+date.to_s+"'").order("price DESC").first
+    daily_closing_prices.where("`daily_closing_prices`.`date_of_day` > '"+date.to_s+"'").order("price DESC").first
   end
 
   def min_daily_closing_price_since(date)
-    daily_closing_prices.where("`daily_closing_prices`.`when` > '"+date.to_s+"'").order("price ASC").first
+    daily_closing_prices.where("`daily_closing_prices`.`date_of_day` > '"+date.to_s+"'").order("price ASC").first
   end
 
   def relation_current_value_to_costs_in_percent
-    last_closing_price.price / (portfolio_sums[:average_price] / 100)
+    if !last_closing_price.nil? then
+      last_closing_price.price / (portfolio_sums[:average_price] / 100)
+    else
+      0
+    end
   end
 
   def last_total_value
-    portfolio_sums[:total_quantity] * last_closing_price.price
+    if !last_closing_price.nil? then
+      portfolio_sums[:total_quantity] * last_closing_price.price
+    else
+      0
+    end
   end
 
   def previous_total_value
-    portfolio_sums[:total_quantity] * last_closing_price.previous.price
+    if !last_closing_price.nil? && !last_closing_price.previous.nil? then
+      portfolio_sums[:total_quantity] * last_closing_price.previous.price
+    else
+      0
+    end
   end
 
   def profit_or_lost_by_current_share_price
@@ -138,15 +150,15 @@ class Share < ActiveRecord::Base
     def initialize( share, total_price_of_investment, share_price_for_investment )
       @share = share
       @total_price_of_investment = total_price_of_investment.to_i
-      if share_price_for_investment.nil?
+      if share_price_for_investment.nil? && !@share.last_closing_price.nil?
         @share_price_for_investment = @share.last_closing_price.price
       else
         @share_price_for_investment = share_price_for_investment.to_f
       end
       
-      puts "###"
-      puts self.inspect
-      puts "###"
+      #puts "###"
+      #puts self.inspect
+      #puts "###"
       
       # @quantity = quantity
       # @total_price = total_price
@@ -171,7 +183,11 @@ class Share < ActiveRecord::Base
     end
 
     def quantity
-      @quantity = ( @total_price_of_investment / @share_price_for_investment ).floor.to_i
+      if @share_price_for_investment != 0 then
+        @quantity = ( @total_price_of_investment / @share_price_for_investment ).floor.to_i
+      else
+        @quantity = 0
+      end
     end
   
     def total_price
@@ -191,7 +207,11 @@ class Share < ActiveRecord::Base
     end
   
     def change_of_average_price_in_percent
-      @change_of_average_price_in_percent = price_per_share / ( @share.portfolio_sums[:average_price] / 100 ) - 100
+      if @share.portfolio_sums[:average_price] != 0 then
+        @change_of_average_price_in_percent = price_per_share / ( @share.portfolio_sums[:average_price] / 100 ) - 100
+      else
+        0
+      end
     end
     
     def quantity_after
@@ -217,11 +237,11 @@ class Share < ActiveRecord::Base
     def _historical_prices_from(date)
       @historical_prices = []
       # logger.debug "dailyClosingPrice hash: #{d.inspect}" || 
-      daily_closing_prices.find_all{ |d| d.when >= date }.sort_by { |sds| sds.when }.each { |dcp|
-        historic_portfolio_sum = portfolio_sums_by_date( dcp.when )
+      daily_closing_prices.find_all{ |d| d.date_of_day >= date }.sort_by { |sds| sds.date_of_day }.each { |dcp|
+        historic_portfolio_sum = portfolio_sums_by_date( dcp.date_of_day )
         @historical_prices.push(
           {
-            :when => dcp.when,
+            :date_of_day => dcp.date_of_day,
             :total_market_value => historic_portfolio_sum[:total_quantity] * dcp.price,
             :total_win => (historic_portfolio_sum[:total_quantity] * dcp.price) - (historic_portfolio_sum[:total_quantity] * historic_portfolio_sum[:average_price]),
             :total_price => historic_portfolio_sum[:total_price]

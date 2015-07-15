@@ -1,5 +1,8 @@
 
 require 'net/http'
+
+puts ENV['RAILS_ENV']
+
 # rails 3.1.1: Identifier.all( :include => :share, :conditions => [ "`identifiers`.`provider` = 'Finance.Yahoo.com'" ] )
 @identifiers = Identifier.where(provider: 'Finance.Yahoo.com')
 
@@ -39,11 +42,11 @@ puts @data.inspect
 
 
 @data.each { |share_id, data|
-  h_data = Hash[ [ "share_id", "identifier", "when", "price" ].zip( "".concat(share_id).concat(',').concat(data).split(',') ) ]
+  h_data = Hash[ [ "share_id", "identifier", "date_of_day", "price" ].zip( "".concat(share_id).concat(',').concat(data).split(',') ) ]
   puts h_data;
   identifier = h_data.delete("identifier")
-  puts h_data["when"]
-  h_data["when"] = Date.strptime(h_data["when"], '"%m/%d/%Y"')
+  puts h_data["date_of_day"]
+  h_data["date_of_day"] = Date.strptime(h_data["date_of_day"], '"%m/%d/%Y"')
   daily_closing_price = DailyClosingPrice.new( h_data )
   puts daily_closing_price
   puts daily_closing_price.inspect
@@ -64,9 +67,9 @@ Net::HTTP.start("download.finance.yahoo.com") { |http|
 
 
 @data.each { |name, data|
-  h_data = Hash[ [ "stock_exchange_id", "identifier", "when", "price" ].zip( "1".concat(',').concat(data).split(',') ) ]
+  h_data = Hash[ [ "stock_exchange_id", "identifier", "date_of_day", "price" ].zip( "1".concat(',').concat(data).split(',') ) ]
   identifier = h_data.delete("identifier")
-  h_data["when"] = Date.strptime(h_data["when"], '"%m/%d/%Y"')
+  h_data["date_of_day"] = Date.strptime(h_data["date_of_day"], '"%m/%d/%Y"')
   daily_closing_price = StockExchangeDailyClosingPrice.new( h_data )
   puts daily_closing_price
   puts daily_closing_price.inspect

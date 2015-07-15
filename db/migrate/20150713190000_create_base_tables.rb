@@ -5,7 +5,7 @@ class CreateBaseTables < ActiveRecord::Migration
     create_table "daily_closing_prices", force: :cascade do |t|
       t.integer  "share_id", null: false
       t.decimal  "price", precision: 8, scale: 2, default: 0.0, null: false
-      t.date     "when"
+      t.date     "date_of_day"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
@@ -24,7 +24,7 @@ class CreateBaseTables < ActiveRecord::Migration
       t.integer  "quantity"
       t.decimal  "price_per_share", precision: 8, scale: 2, default: 0.0, null: false
       t.decimal  "total_cost_of_order", precision: 8, scale: 2, default: 0.0, null: false
-      t.date     "when"
+      t.date     "date_of_day"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
@@ -41,7 +41,7 @@ class CreateBaseTables < ActiveRecord::Migration
     create_table "stock_exchange_daily_closing_prices", force: :cascade do |t|
       t.integer  "stock_exchange_id", null: false
       t.decimal  "price", precision: 8, scale: 2, default: 0.0, null: false
-      t.date     "when"
+      t.date     "date_of_day"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end

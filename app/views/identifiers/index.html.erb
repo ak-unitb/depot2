@@ -15,7 +15,7 @@
   <tbody>
     <% @identifiers.each do |identifier| %>
       <tr>
-        <td><%= identifier.share %></td>
+        <td><%= link_to identifier.share.name_isin, identifier.share %></td>
         <td><%= identifier.name %></td>
         <td><%= identifier.provider %></td>
         <td><%= link_to 'Show', identifier %></td>

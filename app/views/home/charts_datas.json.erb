@@ -25,7 +25,7 @@
       "name": "<%= @stock_exchange.name %>",
       "data": [
         <% @stock_exchange_daily_closing_prices.each_with_index do |daily_closing_price, idx| %>
-        [ <%= daily_closing_price.when.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= idx != @stock_exchange_daily_closing_prices.length - 1 ? ',' : '' %>
+        [ <%= daily_closing_price.date_of_day.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= idx != @stock_exchange_daily_closing_prices.length - 1 ? ',' : '' %>
         <% end %>
       ],
       "type": "area",
@@ -66,7 +66,7 @@
       "data": [
         <% @portfolio_changes.each_with_index do |portfolio_change, idx|  %>
         {
-          "x": <%= portfolio_change.when.to_time.utc.to_i * 1000 %>,
+          "x": <%= portfolio_change.date_of_day.to_time.utc.to_i * 1000 %>,
           "title": "<%= portfolio_change.transaction_type == "buy" ? "K" : "V" %>",
           "text" : "<%= portfolio_change.transaction_type == "buy" ? "Kauf" : "Verkauf" %> von <%= portfolio_change.quantity %> <%= portfolio_change.share.name %> Aktien für je <%= number_to_currency portfolio_change.price_per_share, :precision => 2, :unit => portfolio_change.share.currency %>"
         }<%= idx != @portfolio_changes.length - 1 ? ',' : '' %>

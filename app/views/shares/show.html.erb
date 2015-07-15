@@ -17,8 +17,294 @@
 
 <p>
   <strong>Stock exchange:</strong>
-  <%= @share.stock_exchange %>
+  <%= link_to @share.stock_exchange.name, @share.stock_exchange %>
 </p>
+
+<p class="current-price">
+	<b>Letzter Schlußkurs</b>
+	<% if !@share.last_closing_price.nil? then %>
+		<span class="<%= css_class_for_daily_closing_price(@share.last_closing_price.change_to_previous_absolute) %>"><%= number_to_currency @share.last_closing_price.price %></span>
+	<% else %>
+		<span>&lt;N/A&gt;</span>
+	<% end %>
+</p>
+<p class="previous-price">
+	<b>Vorletzter Schlußkurs:</b>
+	<% if !@share.last_closing_price.nil? && !@share.last_closing_price.previous.nil? then %>
+		<%= number_to_currency @share.last_closing_price.previous.price %>
+	<% else %>
+		&lt;N/A&gt;
+	<% end %>
+</p>
+<p class="change-percent">
+	<b>Letzte Veränderung:</b>
+	<% if !@share.last_closing_price.nil? && !@share.last_closing_price.change_to_previous_absolute.nil? then %>
+		<span class="<%= css_class_for_daily_closing_price(@share.last_closing_price.change_to_previous_absolute) %>"><%= number_to_percentage @share.last_closing_price.change_to_previous_in_percent %> 
+	  	<span class="change-absolute">(<%= number_to_currency @share.last_closing_price.change_to_previous_absolute %>)</span>
+		</span>
+  <% else %>
+		&lt;N/A&gt;
+	<% end %>
+</p>
+<p class="profit-or-lost">
+	<b>Gewinn / Verlust (absolut):</b>
+	<span class="<%= css_class_for_daily_closing_price(@share.profit_or_lost_by_current_share_price) %>"><%= number_to_currency @share.profit_or_lost_by_current_share_price %></span>
+</p>
+
+<table>
+	<thead>
+		<tr>
+			<th colspan="8">Transaktionen</th>
+		</tr>
+		<tr>
+			<th>Datum</th>
+			<th>Art</th>
+			<th>Anzahl</th>
+			<th>Preis pro Aktie</th>
+			<th>Gesamtwert der Transaktion</th>
+			<th>gesamte Kosten</th>
+			<th>Ausgabeaufschlag</th>
+			<th>Aufschlag in %</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th></th>
+			<th></th>
+			<th>Anzahl gesamt</th>
+			<th>Durchschnitt Preis</th>
+			<th>Summe Kaufpreis</th>
+			<th>Summe Kosten</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr>
+			<th>Summen:</th>
+			<td></td>
+			<td class="number"><%= @share.portfolio_sums[:total_quantity] %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:average_price], :precision => 3, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:total_price], :precision => 2, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:total_cost_of_orders], :precision => 2, :unit => @share.currency %></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<% @share.portfolio_changes.each do |pc| %>
+			<tr>
+				<td><%= pc.date_of_day %></td>
+				<td><%= pc.transaction_type %></td>
+				<td class="number"><%= pc.quantity %></td>
+				<td class="currency"><%= number_to_currency pc.price_per_share, :precision => 3, :unit => @share.currency %></td>
+				<td class="currency"><%= number_to_currency pc.total_value, :precision => 2, :unit => @share.currency %></td>
+				<td class="currency"><%= number_to_currency pc.total_cost_of_order, :precision => 2, :unit => @share.currency %></td>
+				<td class="currency"><%= number_to_currency pc.value_of_taxes_absolute, :precision => 2, :unit => @share.currency %></td>
+				<td class="percentage"><%= number_to_percentage pc.value_of_taxes_in_percent, :precision => 3 %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br />
+
+<% if @share.portfolio_sums[:total_quantity] > 0 then %>
+
+<table>
+	<thead>
+		<tr class="odd">
+			<th>Stück</th>
+			<th>Durchschnitt Preis</th>
+			<th>Summe Kaufpreis</th>
+			<th>Summe Kosten</th>
+			<th>Gewinn / Verlust zum gesamten Kaufpreis</th>
+		</tr>
+		<tr class="even">
+			<th></th>
+			<th>Aktueller Kurs</th>
+			<th>Aktueller Gesamtwert</th>
+			<th>Verhältnis Kaufpreis zu aktuellem Kurs in %</th>
+			<th>
+				Gewinn / Verlust zum aktuellen Kurs
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="odd">
+			<td class="number"><%= @share.portfolio_sums[:total_quantity] %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:average_price], :precision => 3, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:total_price], :precision => 2, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.portfolio_sums[:total_cost_of_orders], :precision => 2, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.profit_or_lost_by_total_costs, :precision => 2, :unit => @share.currency %></td>
+		</tr>
+		<tr class="even">
+			<td></td>
+			<td class="currency"><%= number_to_currency @share.last_closing_price.price, :precision => 3, :unit => @share.currency %></td>
+			<td class="currency"><%= number_to_currency @share.last_total_value, :precision => 2, :unit => @share.currency %></td>
+			<td class="percentage"><%= number_to_percentage @share.relation_current_value_to_costs_in_percent, :precision => 3 %></td>
+			<td class="currency"><%= number_to_currency @share.profit_or_lost_by_current_share_price, :precision => 2, :unit => @share.currency %></td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<p>&nbsp;</p>
+
+<div id="share_chart_container" class="charts"></div>
+
+<p>&nbsp;</p>
+
+<div id="share_historical_chart_container" class="charts"></div>
+
+<p>&nbsp;</p>
+
+<h3>Fiktive Käufe</h3>
+<%
+	@fix_notional_buy = @share.notional_buy
+	@notional_buy_by_quantity = @share.notional_buy_by_quantity( @share.portfolio_sums[:total_quantity] )
+	@notional_buy_by_investment = @share.notional_buy_by_investment_of( @share.portfolio_sums[:total_price] )
+	@notional_buy_by_price = @share.notional_buy_by_price( @share.portfolio_sums[:total_price], @share.portfolio_sums[:total_quantity], @share.last_closing_price.price )
+%>
+<table>
+	<thead>
+		<tr class="even">
+			<th></th>
+			<th>Bei selber Investitionssumme</th>
+			<th>Bei Kauf der Anzahl an Aktien von:</th>
+			<th>Bei Investitionssumme von:</th>
+			<th>Bei Preis von:</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>Investitionssumme</th>
+			<td class="number"><%= number_to_currency @fix_notional_buy.total_price_of_investment %></td>
+			<td class="number"><%= number_to_currency @notional_buy_by_quantity.total_price_of_investment %></td>
+			<td class="number">
+				<%= form_for(@share, :url => { :action => "notional_buy_by_investment_inline" }, :html => { :class => 'xhr inlineform update', :method => "get" }) do |f| %>
+					<!-- <div class="actions">
+						<%= submit_tag 's' %>
+					</div> -->
+					<div class="field">
+						<%= f.hidden_field :id %>
+					 	<%= f.text_field :notional_buy_by_investment_of, :value => @notional_buy_by_investment.total_price_of_investment %>&nbsp;€
+					</div>
+				<% end %>
+			</td>
+			<td class="number">
+				<%= form_for(@share, :url => { :action => "notional_buy_by_price_inline" }, :html => { :class => 'xhr inlineform-extra update', :method => "get" }) do |f| %>
+					<!-- <div class="actions">
+						<%= submit_tag 's' %>
+					</div> -->
+					<div class="field">
+						<%= f.hidden_field :id %>
+						<%= radio_button_tag "notional_buy_calculation_type", 'with_investment_of', true %>
+					 	<%= f.text_field :notional_buy_by_investment_of, :value => @notional_buy_by_price.total_price_of_investment %>&nbsp;€
+					</div>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<th>Anzahl Aktien</th>
+			<td class="number"><%= @fix_notional_buy.quantity %></td>
+			<td class="number">
+				<%= form_for(@share, :url => { :action => "notional_buy_by_quantity_inline" }, :html => { :class => 'xhr inlineform update', :method => "get" }) do |f| %>
+					<!-- <div class="actions">
+						<%= submit_tag 's' %>
+					</div> -->
+					<div class="field">
+						<%= f.hidden_field :id %>
+					 	<%= f.text_field :notional_buy_by_quantity, :value => @notional_buy_by_quantity.quantity %>
+					</div>
+				<% end %>
+			</td>
+			<td class="number"><%= @notional_buy_by_investment.quantity %></td>
+			<td class="number">
+				<%= form_for(@share, :url => { :action => "notional_buy_by_price_inline" }, :html => { :class => 'xhr inlineform-extra update', :method => "get" }) do |f| %>
+					<!-- <div class="actions">
+						<%= submit_tag 's' %>
+					</div> -->
+					<div class="field">
+						<%= f.hidden_field :id %>
+						<%= radio_button_tag "notional_buy_calculation_type", 'with_quantity_of' %>
+					 	<%= f.text_field :notional_buy_by_quantity, :value => @notional_buy_by_price.quantity %>
+					</div>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<th>Gesamtpreis</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.total_price %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.total_price %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.total_price %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_price.total_price %></td>
+		</tr>
+		<tr>
+			<th>Preis pro Aktie aktuell / gewählt</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.share.last_closing_price.price %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.share.last_closing_price.price %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.share.last_closing_price.price %></td>
+			<td class="currency">
+				<%= form_for(@share, :url => { :action => "notional_buy_by_price_inline" }, :html => { :class => 'xhr inlineform-extra update', :method => "get" }) do |f| %>
+					<!-- <div class="actions">
+						<%= submit_tag 's' %>
+					</div> -->
+					<div class="field">
+						<%= f.hidden_field :id %>
+					 	<%= f.text_field :notional_buy_by_price, :value => @notional_buy_by_price.share_price_for_investment %>&nbsp;€
+					</div>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<th>Preis pro Aktie danach</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.price_per_share %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.price_per_share %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.price_per_share %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_price.price_per_share %></td>
+		</tr>
+		<tr>
+			<th>Preis-Veränderung absolut</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.change_of_average_price_in_currency %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.change_of_average_price_in_currency %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.change_of_average_price_in_currency %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_price.change_of_average_price_in_currency %></td>
+		</tr>
+		<tr>
+			<th>Preis-Veränderung in %</th>
+			<td class="percentage"><%= number_to_percentage @fix_notional_buy.change_of_average_price_in_percent %></td>
+			<td class="percentage"><%= number_to_percentage @notional_buy_by_quantity.change_of_average_price_in_percent %></td>
+			<td class="percentage"><%= number_to_percentage @notional_buy_by_investment.change_of_average_price_in_percent %></td>
+			<td class="percentage"><%= number_to_percentage @notional_buy_by_price.change_of_average_price_in_percent %></td>
+		</tr>
+		<tr>
+			<th>Anzahl Aktien danach</th>
+			<td class="number"><%= @fix_notional_buy.quantity_after %></td>
+			<td class="number"><%= @notional_buy_by_quantity.quantity_after %></td>
+			<td class="number"><%= @notional_buy_by_investment.quantity_after %></td>
+			<td class="number"><%= @notional_buy_by_price.quantity_after %></td>
+		</tr>
+		<tr>
+			<th>Gesamtwert danach</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.total_value_after %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.total_value_after %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.total_value_after %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_price.total_value_after %></td>
+		</tr>
+		<tr>
+			<th>Veränderung des Gesamtwertes nach Kauf</th>
+			<td class="currency"><%= number_to_currency @fix_notional_buy.difference_of_total_price_to_total_value %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_quantity.difference_of_total_price_to_total_value %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_investment.difference_of_total_price_to_total_value %></td>
+			<td class="currency"><%= number_to_currency @notional_buy_by_price.difference_of_total_price_to_total_value %></td>
+		</tr>
+	</tbody>
+</table>
+
+<% end %>
+
+<p>&nbsp;</p>
 
 <%= link_to 'Edit', edit_share_path(@share) %> |
 <%= link_to 'Back', shares_path %>
+

@@ -2,7 +2,7 @@
 
 <p>
   <strong>Stockexchange:</strong>
-  <%= @stock_exchange_daily_closing_price.stockExchange %>
+  <%= link_to @stock_exchange_daily_closing_price.stock_exchange.name, @stock_exchange_daily_closing_price.stock_exchange %>
 </p>
 
 <p>
@@ -11,8 +11,8 @@
 </p>
 
 <p>
-  <strong>When:</strong>
-  <%= @stock_exchange_daily_closing_price.when %>
+  <strong>Date of Day:</strong>
+  <%= @stock_exchange_daily_closing_price.date_of_day %>
 </p>
 
 <%= link_to 'Edit', edit_stock_exchange_daily_closing_price_path(@stock_exchange_daily_closing_price) %> |

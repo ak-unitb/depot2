@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :share_id %><br>
-    <%= f.text_field :share_id %>
+    <%= f.label :share %><br>
+    <%= collection_select(:identifier, :share_id, Share.all, :id, :name_isin) %>
   </div>
   <div class="field">
     <%= f.label :name %><br>

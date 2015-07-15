@@ -4,16 +4,24 @@
 %>
 <li id="share-<%=share.id %>" class="infoSliderPart todays share">
 	<div class="infoSliderPartContent">
-		<h2 class="<%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>"><%= link_to share.name, share %></h2>
+		<% if !share.last_closing_price.nil? then  %>
+			<h2 class="<%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>"><%= link_to share.name, share %></h2>
+		<% else %>
+			<h2 ><%= link_to share.name, share %></h2>
+		<% end %>
 		<p class="details">
-			<span class="current-price <%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>">
-				<%= number_to_currency share.last_closing_price.price %>
-			</span>
-			<span class="previous-price">vorletzter: <%= number_to_currency share.last_closing_price.previous.price %></span>
-			<span class="change-percent">
-				<%= number_to_percentage share.last_closing_price.change_to_previous_in_percent %> 
-				<span class="change-absolute">(<%= number_to_currency share.last_closing_price.change_to_previous_absolute %>)</span>
-			</span>
+			<% if !share.last_closing_price.nil? then  %>
+				<span class="current-price <%= css_class_for_daily_closing_price(share.last_closing_price.change_to_previous_absolute) %>">
+					<%= number_to_currency share.last_closing_price.price %>
+				</span>
+				<% if !share.last_closing_price.previous.nil? then %>
+					<span class="previous-price">vorletzter: <%= number_to_currency share.last_closing_price.previous.price %></span>
+				<% end %>
+				<span class="change-percent">
+					<%= number_to_percentage share.last_closing_price.change_to_previous_in_percent %> 
+					<span class="change-absolute">(<%= number_to_currency share.last_closing_price.change_to_previous_absolute %>)</span>
+				</span>
+		  <% end %>
 			<span class="profit-or-lost <%= css_class_for_daily_closing_price(share.profit_or_lost_by_current_share_price) %>"><%= number_to_currency share.profit_or_lost_by_current_share_price %></span>
 		</p>
 	</div>

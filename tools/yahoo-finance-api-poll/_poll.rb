@@ -33,7 +33,7 @@ require 'net/http'
 }
 
 @data.each { |share_id,data|
-  h_data = Hash[ [ "share_id", "when", "open", "high", "low", "close", "volume", "adj_close" ].zip( "".concat(share_id).concat(',').concat(data).split(',') ) ]
+  h_data = Hash[ [ "share_id", "date_of_day", "open", "high", "low", "close", "volume", "adj_close" ].zip( "".concat(share_id).concat(',').concat(data).split(',') ) ]
   puts h_data
   #daily_closing_price = DailyClosingPrice.new( h_data )
   #puts daily_closing_price

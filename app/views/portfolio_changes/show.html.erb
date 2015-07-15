@@ -2,7 +2,7 @@
 
 <p>
   <strong>Share:</strong>
-  <%= @portfolio_change.share %>
+  <%= link_to @portfolio_change.share.name_isin, @portfolio_change.share %>
 </p>
 
 <p>
@@ -26,8 +26,8 @@
 </p>
 
 <p>
-  <strong>When:</strong>
-  <%= @portfolio_change.when %>
+  <strong>Date of Day:</strong>
+  <%= @portfolio_change.date_of_day %>
 </p>
 
 <%= link_to 'Edit', edit_portfolio_change_path(@portfolio_change) %> |

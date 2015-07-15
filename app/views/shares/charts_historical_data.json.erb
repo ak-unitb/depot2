@@ -1,0 +1,61 @@
+{
+  "title": {
+    "text": "<%= @share.name %>: historischer Depotwert dieser Aktie"
+  },
+  "yAxis": [
+    {
+      "title": {
+        "text": "Wert je Tag"
+      }
+    }
+  ],
+  "legend": {
+    "enabled": true
+  },
+  "series": [
+    {
+      "name": "Wert des Bestands der<br /><%= @share.name %> Aktien im Depot",
+      "id": "historical_prices",
+      "data": [
+        <% @historical_prices.each_with_index do |historical_price, idx| %>
+            [ <%= historical_price[:date_of_day].to_time.utc.to_i * 1000 %>, <%= historical_price[:total_market_value].to_f %> ]<%= idx != @historical_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ]
+    },
+    {
+      "name": "Kaufpreis",
+      "id": "costs",
+      "data": [
+        <% @historical_total_prices.each_with_index do |htp, idx| %>
+          [ <%= htp[:date_of_day].to_time.utc.to_i * 1000 %>, <%= htp[:total_price] %>]<%= idx != @historical_total_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ]
+    },
+    {
+      "name": "Gewinn / Verlust",
+      "id": "costs",
+      "data": [
+        <% @historical_prices.each_with_index do |htp, idx| %>
+          [ <%= htp[:date_of_day].to_time.utc.to_i * 1000 %>, <%= htp[:total_win] %>]<%= idx != @historical_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ]
+    },
+    {
+      "type": "flags",
+      "name": "Käufe / Verkäufe",
+      "showInLegend": false,
+      "data": [
+        <% @portfolio_changes.each_with_index do |portfolio_change, idx|  %>
+        {
+          "x": <%= portfolio_change.date_of_day.to_time.utc.to_i * 1000 %>,
+          "title": "<%= portfolio_change.transaction_type == "buy" ? "K" : "V" %>",
+          "text" : "<%= portfolio_change.transaction_type == "buy" ? "Kauf" : "Verkauf" %> von <%= portfolio_change.quantity %> Aktien für je <%= number_to_currency portfolio_change.price_per_share, :precision => 2, :unit => @share.currency %>"
+        }<%= idx != @portfolio_changes.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "onSeries": "costs",
+      "shape": "circlepin",
+      "width": 24
+    }
+  ]
+}

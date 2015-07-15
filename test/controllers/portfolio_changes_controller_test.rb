@@ -18,7 +18,7 @@ class PortfolioChangesControllerTest < ActionController::TestCase
 
   test "should create portfolio_change" do
     assert_difference('PortfolioChange.count') do
-      post :create, portfolio_change: { price_per_share: @portfolio_change.price_per_share, quantity: @portfolio_change.quantity, share_id: @portfolio_change.share_id, total_cost_of_order: @portfolio_change.total_cost_of_order, transaction_type: @portfolio_change.transaction_type, when: @portfolio_change.when }
+      post :create, portfolio_change: { price_per_share: @portfolio_change.price_per_share, quantity: @portfolio_change.quantity, share_id: @portfolio_change.share_id, total_cost_of_order: @portfolio_change.total_cost_of_order, transaction_type: @portfolio_change.transaction_type, date_of_day: @portfolio_change.date_of_day }
     end
 
     assert_redirected_to portfolio_change_path(assigns(:portfolio_change))
@@ -35,7 +35,7 @@ class PortfolioChangesControllerTest < ActionController::TestCase
   end
 
   test "should update portfolio_change" do
-    patch :update, id: @portfolio_change, portfolio_change: { price_per_share: @portfolio_change.price_per_share, quantity: @portfolio_change.quantity, share_id: @portfolio_change.share_id, total_cost_of_order: @portfolio_change.total_cost_of_order, transaction_type: @portfolio_change.transaction_type, when: @portfolio_change.when }
+    patch :update, id: @portfolio_change, portfolio_change: { price_per_share: @portfolio_change.price_per_share, quantity: @portfolio_change.quantity, share_id: @portfolio_change.share_id, total_cost_of_order: @portfolio_change.total_cost_of_order, transaction_type: @portfolio_change.transaction_type, date_of_day: @portfolio_change.date_of_day }
     assert_redirected_to portfolio_change_path(assigns(:portfolio_change))
   end
 

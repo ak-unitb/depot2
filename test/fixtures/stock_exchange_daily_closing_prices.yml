@@ -3,29 +3,29 @@
 sedcp_xetra_1:
   stockExchange: xetra
   price: 6048.30
-  when: 2010-01-04
+  date_of_day: 2010-01-04
 
 sedcp_xetra_2:
   stockExchange: xetra
   price: 6031.86
-  when: 2010-01-05
+  date_of_day: 2010-01-05
 
 sedcp_xetra_3:
   stockExchange: xetra
   price: 6034.33
-  when: 2010-01-06
+  date_of_day: 2010-01-06
 
 sedcp_xetra_4:
   stockExchange: xetra
   price: 6019.36
-  when: 2010-01-07
+  date_of_day: 2010-01-07
 
 sedcp_xetra_5:
   stockExchange: xetra
   price: 6037.61
-  when: 2010-01-08
+  date_of_day: 2010-01-08
 
 sedcp_xetra_6:
   stockExchange: xetra
   price: 6040.50
-  when: 2010-01-11
+  date_of_day: 2010-01-11

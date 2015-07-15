@@ -3,7 +3,7 @@ class CreateStockExchangeDailyClosingPrices < ActiveRecord::Migration
     create_table :stock_exchange_daily_closing_prices do |t|
       t.references :stockExchange, index: true, foreign_key: true
       t.decimal :price
-      t.date :when
+      t.date :date_of_day
 
       t.timestamps null: false
     end

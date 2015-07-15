@@ -4,7 +4,7 @@ class StockExchangeDailyClosingPricesController < ApplicationController
   # GET /stock_exchange_daily_closing_prices
   # GET /stock_exchange_daily_closing_prices.json
   def index
-    @stock_exchange_daily_closing_prices = StockExchangeDailyClosingPrice.all
+    @stock_exchange_daily_closing_prices = StockExchangeDailyClosingPrice.paginate( :page => params[:page], :per_page => 20 ).order( date_of_day: :desc )
   end
 
   # GET /stock_exchange_daily_closing_prices/1
@@ -69,6 +69,6 @@ class StockExchangeDailyClosingPricesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def stock_exchange_daily_closing_price_params
-      params.require(:stock_exchange_daily_closing_price).permit(:stockExchange_id, :price, :when)
+      params.require(:stock_exchange_daily_closing_price).permit(:stock_exchange_id, :price, :date_of_day)
     end
 end

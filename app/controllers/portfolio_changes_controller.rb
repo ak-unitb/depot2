@@ -69,6 +69,6 @@ class PortfolioChangesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def portfolio_change_params
-      params.require(:portfolio_change).permit(:share_id, :transaction_type, :quantity, :price_per_share, :total_cost_of_order, :when)
+      params.require(:portfolio_change).permit(:share_id, :transaction_type, :quantity, :price_per_share, :total_cost_of_order, :date_of_day)
     end
 end

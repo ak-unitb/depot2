@@ -1,0 +1,15 @@
+{
+	"rows": [
+		"<%= number_to_currency @notional_buy.total_price_of_investment %>",
+		"<%= @notional_buy.quantity %>",
+		"<%= number_to_currency @notional_buy.total_price %>",
+		"<%= number_to_currency @notional_buy.share_price_for_investment %>",
+		"<%= number_to_currency @notional_buy.price_per_share %>",
+		"<%= number_to_currency @notional_buy.change_of_average_price_in_currency %>",
+		"<%= number_to_percentage @notional_buy.change_of_average_price_in_percent %>",
+		"<%= @notional_buy.quantity_after %>",
+		"<%= number_to_currency @notional_buy.total_value_after %>",
+		"<%= number_to_currency @notional_buy.difference_of_total_price_to_total_value %>"
+	]
+}
+

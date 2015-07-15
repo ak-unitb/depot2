@@ -1,6 +1,6 @@
 <%= form_for(@daily_closing_price, :url => { :action => "update_inline" }, :html => { :class => 'xhr inlineform update' }) do |f| %>
 <div class="field">
-  <%= f.hidden_field :when %>
+  <%= f.hidden_field :date_of_day %>
   <%= f.hidden_field :share_id %>
   <%= f.text_field :price %> €
 </div>

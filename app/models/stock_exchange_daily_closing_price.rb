@@ -1,12 +1,12 @@
 class StockExchangeDailyClosingPrice < ActiveRecord::Base
-  belongs_to :stockExchange
-  validates_uniqueness_of :stock_exchange_id, :scope => :when, :message => "Tagesschlußkurs für das Datum und der ausgewählten Börse schon vorhanden."
+  belongs_to :stock_exchange
+  validates_uniqueness_of :stock_exchange_id, :scope => :date_of_day, :message => "Tagesschlußkurs für das Datum und der ausgewählten Börse schon vorhanden."
 
   @previous = nil
 
   def previous
     if @previous.nil?
-      @previous = StockExchangeDailyClosingPrice.where("`when` < ? AND stock_exchange_id = ?", self.when, stock_exchange_id).order('`when` DESC').first;
+      @previous = StockExchangeDailyClosingPrice.where("`date_of_day` < ? AND stock_exchange_id = ?", self.date_of_day, stock_exchange_id).order('`date_of_day` DESC').first;
     else
       @previous
     end

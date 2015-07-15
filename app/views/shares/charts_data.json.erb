@@ -1,0 +1,63 @@
+{
+  "title": {
+    "text": "<%= @share.name %> Tagesschlusskurse"
+  },
+  "yAxis": [
+    {
+      "title": {
+        "text": "Kurs der Aktie in EUR",
+        "style": {
+          "color": "#AA4643"
+        }
+      }
+    },
+    {
+      "title": {
+        "text": "Kurs des Index in 100 EUR",
+        "style": {
+          "color": "#4572A7"
+        }
+      }
+    }
+  ],
+  "series": [
+    {
+      "name": "<%= @share.name %>",
+      "data": [
+        <% @daily_closing_prices.each_with_index do |daily_closing_price, idx| %>
+            [ <%= daily_closing_price.date_of_day.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= idx != @daily_closing_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "type": "line",
+      "color": "#AA4643",
+      "tooltip": {
+        "yDecimals": 2,
+        "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y} EUR</b><br/>"
+      }
+    },
+    {
+      "name": "<%= @stock_exchange.name %>",
+      "data": [
+        <% @stock_exchange_daily_closing_prices.each_with_index do |daily_closing_price, idx| %>
+          [ <%= daily_closing_price.date_of_day.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f / 100 %> ]<%= idx != @stock_exchange_daily_closing_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "type": "area",
+      "threshold": 0,
+      "tooltip": {
+        "yDecimals": 2,
+        "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y} * 100</b><br/>"
+      },
+      "color": "#4572A7",
+      "fillColor": {
+        "linearGradient": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 0,
+          "y2": 1
+        },
+        "stops": [[0, "#4572A7"], [1, "rgba(0,0,0,0)"]]
+      }
+    }
+  ]
+}

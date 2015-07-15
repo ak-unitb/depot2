@@ -6,7 +6,7 @@ class CreatePortfolioChanges < ActiveRecord::Migration
       t.integer :quantity
       t.decimal :price_per_share
       t.decimal :total_cost_of_order
-      t.date :when
+      t.date :date_of_day
 
       t.timestamps null: false
     end

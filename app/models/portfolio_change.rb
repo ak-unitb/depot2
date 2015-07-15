@@ -1,7 +1,7 @@
 class PortfolioChange < ActiveRecord::Base
   belongs_to :share
 
-  has_one :first_buy, -> { where("transaction_type = 'buy'").order('`when` ASC') }, class_name: 'PortfolioChange'
+  has_one :first_buy, -> { where("transaction_type = 'buy'").order('`date_of_day` ASC') }, class_name: 'PortfolioChange'
 
   def total_value
     quantity * price_per_share

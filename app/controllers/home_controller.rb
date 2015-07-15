@@ -3,17 +3,17 @@ class HomeController < ApplicationController
   def index
     @shares = Share.order( :name, :isin ).all #( :include => :daily_closing_prices )
     @shares_size = @shares.size
-    # take the last 30 from each share (when DESC)
+    # take the last 30 from each share (date_of_day DESC)
     @daily_closing_prices_overview = DailyClosingPrice.find_by_sql [
-        "SELECT * FROM (SELECT s.name, s.isin, s.currency, d.id, d.share_id, d.price, d.when
+        "SELECT * FROM (SELECT s.name, s.isin, s.currency, d.id, d.share_id, d.price, d.date_of_day
          FROM shares s JOIN daily_closing_prices d ON s.id = d.share_id) as tbl
-         ORDER BY tbl.when DESC, tbl.name ASC, tbl.isin ASC LIMIT 0, ?", 30 * @shares_size ]
+         ORDER BY tbl.date_of_day DESC, tbl.name ASC, tbl.isin ASC LIMIT 0, ?", 30 * @shares_size ]
     # reverse date order to ASC
-    @daily_closing_prices_overview = @daily_closing_prices_overview.sort_by { |dc| dc.when }
+    @daily_closing_prices_overview = @daily_closing_prices_overview.sort_by { |dc| dc.date_of_day }
     @sums_of_share_values = sums_of_share_values
     # SELECT * FROM
-    #   (SELECT s.id, s.name, s.isin, s.currency, d.share_id, d.price, d.when FROM shares s JOIN daily_closing_prices d ON s.id = d.share_id) as tbl
-    # ORDER BY tbl.when, tbl.name, tbl.isin;
+    #   (SELECT s.id, s.name, s.isin, s.currency, d.share_id, d.price, d.date_of_day FROM shares s JOIN daily_closing_prices d ON s.id = d.share_id) as tbl
+    # ORDER BY tbl.date_of_day, tbl.name, tbl.isin;
   end
 
   def calculate_notional_buy
@@ -52,8 +52,8 @@ class HomeController < ApplicationController
 
   def charts_datas_normalized
     stock_prices = stock_exchange_normalized_prices(1)
-    @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.when <=> pc2.when }
-    depot_total_values_per_date = depot_total_performance(@portfolio_changes.first[:when])
+    @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.date_of_day <=> pc2.date_of_day }
+    depot_total_values_per_date = depot_total_performance(@portfolio_changes.first[:date_of_day])
     @depot_perfomance_per_date = []
     @differences = []
     @total_performances = {}
@@ -66,9 +66,9 @@ class HomeController < ApplicationController
       )
     }
     stock_prices.each { |stock_price|
-      if @total_performances[stock_price[:when]] != nil
+      if @total_performances[stock_price[:date_of_day]] != nil
         @differences.push(
-          [stock_price[:when], (@total_performances[stock_price[:when]] - stock_price[:percentaged])]
+          [stock_price[:date_of_day], (@total_performances[stock_price[:date_of_day]] - stock_price[:percentaged])]
         )
       end
     }
@@ -139,9 +139,9 @@ class HomeController < ApplicationController
 
     def collect_charts_datas(stock_exchange_id)
       @stock_exchange = StockExchange.find(stock_exchange_id)
-      @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.when <=> pc2.when }
-      @stock_exchange_daily_closing_prices = @stock_exchange.stock_exchange_daily_closing_prices_from(@portfolio_changes.first[:when]).sort!{ |d1,d2| d1.when <=> d2.when }
-      @depot_total_values = depot_total_values(@portfolio_changes.first[:when])
+      @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.date_of_day <=> pc2.date_of_day }
+      @stock_exchange_daily_closing_prices = @stock_exchange.stock_exchange_daily_closing_prices_from(@portfolio_changes.first[:date_of_day]).sort!{ |d1,d2| d1.date_of_day <=> d2.date_of_day }
+      @depot_total_values = depot_total_values(@portfolio_changes.first[:date_of_day])
     end
 
     def depot_total_values(from)
@@ -149,7 +149,7 @@ class HomeController < ApplicationController
       @shares = Share.order( :name, :isin ).all
       @shares.each { |s|
         s.historical_prices_from(from).each { |hp|
-          key = hp[:when].to_time.utc.to_i * 1000
+          key = hp[:date_of_day].to_time.utc.to_i * 1000
           if values[key] != nil
             values[key] += hp[:total_market_value].to_f
           else
@@ -166,7 +166,7 @@ class HomeController < ApplicationController
       @shares.each { |s|
         #if s.name != "E.ON"
           s.historical_prices_from(from).each { |hp|
-            key = hp[:when].to_time.utc.to_i * 1000
+            key = hp[:date_of_day].to_time.utc.to_i * 1000
             if values[key] != nil
               values[key][:accumulated_market_value] += hp[:total_market_value].to_f
               values[key][:accumulated_price] += hp[:total_price].to_f
@@ -185,18 +185,18 @@ class HomeController < ApplicationController
 
     def stock_exchange_normalized_prices(stock_exchange_id)
       @stock_exchange = StockExchange.find(stock_exchange_id)
-      @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.when <=> pc2.when }
-      stock_exchange_prices = @stock_exchange.stock_exchange_daily_closing_prices_from(@portfolio_changes.first[:when]).sort!{ |d1,d2| d1.when <=> d2.when }
+      @portfolio_changes = PortfolioChange.all.sort { |pc1,pc2| pc1.date_of_day <=> pc2.date_of_day }
+      stock_exchange_prices = @stock_exchange.stock_exchange_daily_closing_prices_from(@portfolio_changes.first[:date_of_day]).sort!{ |d1,d2| d1.date_of_day <=> d2.date_of_day }
       stock_exchange_first_price = stock_exchange_prices.first[:price]
       @stock_exchange_normalized_prices = []
       stock_exchange_prices.each { |price|
-        timestamp = price[:when].to_time.utc.to_i * 1000
+        timestamp = price[:date_of_day].to_time.utc.to_i * 1000
         # stock_exchange_first_price => 100%
         # price @ date => how many percent of stock_exchange_first_price
         @stock_exchange_normalized_prices.push(
           {
-            :when => timestamp,
-            :readable_date => price[:when].to_s,
+            :date_of_day => timestamp,
+            :readable_date => price[:date_of_day].to_s,
             :percentaged => (price[:price] / (stock_exchange_first_price / 100)).to_f - 100,
             :absolute => price[:price],
             :point_zero_value => stock_exchange_first_price
@@ -207,7 +207,7 @@ class HomeController < ApplicationController
     end
 
     def average_yearly_interest
-      depotStart = PortfolioChange.where("transaction_type = 'buy'").order("`when` ASC").first.when
+      depotStart = PortfolioChange.where("transaction_type = 'buy'").order("`date_of_day` ASC").first.date_of_day
       startCapital = sums_of_share_values[:total_price]
       currentCapital = sums_of_share_values[:last_total_value]
 

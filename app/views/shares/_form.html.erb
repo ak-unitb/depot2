@@ -24,8 +24,8 @@
     <%= f.text_field :currency %>
   </div>
   <div class="field">
-    <%= f.label :stock_exchange_id %><br>
-    <%= f.text_field :stock_exchange_id %>
+    <%= f.label :stock_exchange %><br>
+    <%= collection_select( :share, :stock_exchange_id, StockExchange.all, :id, :name ) %>
   </div>
   <div class="actions">
     <%= f.submit %>

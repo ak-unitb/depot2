@@ -19,7 +19,7 @@
         <td><%= share.isin %></td>
         <td><%= share.name %></td>
         <td><%= share.currency %></td>
-        <td><%= share.stock_exchange %></td>
+        <td><%= link_to share.stock_exchange.name, share.stock_exchange %></td>
         <td><%= link_to 'Show', share %></td>
         <td><%= link_to 'Edit', edit_share_path(share) %></td>
         <td><%= link_to 'Destroy', share, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,6 +28,14 @@
   </tbody>
 </table>
 
-<br>
+<br />
+
+<div id="shares_chart_container"></div>
+
+<br />
+
+<div id="shares_chart_container_compare"></div>
+
+<br />
 
 <%= link_to 'New Share', new_share_path %>

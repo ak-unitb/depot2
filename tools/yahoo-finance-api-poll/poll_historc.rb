@@ -79,14 +79,14 @@ puts
     LOG.debug("\n\n" + Share.find(share_id).name_isin)
     LOG.debug(lineCounter.to_s+": "+line)
     if lineCounter > 0
-      dataHashed = Hash[ [ "share_id", "when", "open", "high", "low", "close", "volume", "adj_close" ].zip( "".concat(share_id).concat(',').concat(line.chomp).split(',') ) ]
+      dataHashed = Hash[ [ "share_id", "date_of_day", "open", "high", "low", "close", "volume", "adj_close" ].zip( "".concat(share_id).concat(',').concat(line.chomp).split(',') ) ]
       LOG.debug(dataHashed.inspect)
       dataPrice = BigDecimal.new(dataHashed["close"])
       LOG.debug(dataPrice.inspect)
 
-      existingDailyClosingPrice = DailyClosingPrice.find_by_when_and_share_id( dataHashed["when"], share_id )
+      existingDailyClosingPrice = DailyClosingPrice.find_by_date_of_day_and_share_id( dataHashed["date_of_day"], share_id )
       if existingDailyClosingPrice == nil
-        daily_closing_price = DailyClosingPrice.new( {"share_id" => dataHashed["share_id"], "when" => dataHashed["when"], "price" => dataHashed["close"] } )
+        daily_closing_price = DailyClosingPrice.new( {"share_id" => dataHashed["share_id"], "date_of_day" => dataHashed["date_of_day"], "price" => dataHashed["close"] } )
         LOG.debug(daily_closing_price.inspect)
         begin
           daily_closing_price.save!
@@ -100,7 +100,7 @@ puts
         LOG.warn("The historic closing price ("+dataHashed["close"]+") differ from the already saved one ("+existingDailyClosingPrice.price.to_s+")!")
         LOG.warn("Asking for update: '"+line.chomp+"' for "+existingDailyClosingPrice.share.name+" (ID: "+share_id.to_s+")")
         puts
-        puts "The historic closing price ("+dataHashed["close"]+") for "+existingDailyClosingPrice.share.name+" from the "+dataHashed["when"]+" differ from the already saved one ("+existingDailyClosingPrice.price.to_s+")!"
+        puts "The historic closing price ("+dataHashed["close"]+") for "+existingDailyClosingPrice.share.name+" from the "+dataHashed["date_of_day"]+" differ from the already saved one ("+existingDailyClosingPrice.price.to_s+")!"
         decision = ask('Should the DailyClosingPrice be updated with the new price? [y/N]')
         if decision == "y"
           existingDailyClosingPrice.price = dataPrice

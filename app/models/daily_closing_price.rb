@@ -1,14 +1,14 @@
 class DailyClosingPrice < ActiveRecord::Base
   belongs_to :share
 
-  validates_uniqueness_of :share_id, :scope => :when
+  validates_uniqueness_of :share_id, :scope => :date_of_day
 
   @previous = nil
 
   def previous
     if @previous.nil?
-      #@previous = DailyClosingPrice.first(:conditions => ["daily_closing_prices.when < ? AND daily_closing_prices.share_id = ?", self.when, share_id], :order => "daily_closing_prices.when DESC", :limit => 1 )
-      @previous = DailyClosingPrice.where("`when` < ? AND share_id = ?", self.when, share_id).order('`when` DESC').first;
+      #@previous = DailyClosingPrice.first(:conditions => ["daily_closing_prices.date_of_day < ? AND daily_closing_prices.share_id = ?", self.date_of_day, share_id], :order => "daily_closing_prices.date_of_day DESC", :limit => 1 )
+      @previous = DailyClosingPrice.where("`date_of_day` < ? AND share_id = ?", self.date_of_day, share_id).order('`date_of_day` DESC').first;
     else
       @previous
     end

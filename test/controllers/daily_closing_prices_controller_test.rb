@@ -18,7 +18,7 @@ class DailyClosingPricesControllerTest < ActionController::TestCase
 
   test "should create daily_closing_price" do
     assert_difference('DailyClosingPrice.count') do
-      post :create, daily_closing_price: { price: @daily_closing_price.price, share_id: @daily_closing_price.share_id, when: @daily_closing_price.when }
+      post :create, daily_closing_price: { price: @daily_closing_price.price, share_id: @daily_closing_price.share_id, date_of_day: @daily_closing_price.date_of_day }
     end
 
     assert_redirected_to daily_closing_price_path(assigns(:daily_closing_price))
@@ -35,7 +35,7 @@ class DailyClosingPricesControllerTest < ActionController::TestCase
   end
 
   test "should update daily_closing_price" do
-    patch :update, id: @daily_closing_price, daily_closing_price: { price: @daily_closing_price.price, share_id: @daily_closing_price.share_id, when: @daily_closing_price.when }
+    patch :update, id: @daily_closing_price, daily_closing_price: { price: @daily_closing_price.price, share_id: @daily_closing_price.share_id, date_of_day: @daily_closing_price.date_of_day }
     assert_redirected_to daily_closing_price_path(assigns(:daily_closing_price))
   end
 

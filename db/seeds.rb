@@ -10,12 +10,12 @@ stock_exchange = StockExchange.create({ id: 1, name: 'XETRA', closing_time: '18:
 
 stock_exchange_daily_closing_prices = StockExchangeDailyClosingPrice.create(
 	[
-		{ stock_exchange_id: 1,  price: 6048.30, 'when': '2010-01-04' },
-		{ stock_exchange_id: 1,  price: 6031.86, 'when': '2010-01-05' },
-		{ stock_exchange_id: 1,  price: 6034.33, 'when': '2010-01-06' },
-		{ stock_exchange_id: 1,  price: 6019.36, 'when': '2010-01-07' },
-		{ stock_exchange_id: 1,  price: 6037.61, 'when': '2010-01-08' },
-		{ stock_exchange_id: 1,  price: 6040.50, 'when': '2010-01-11' }
+		{ stock_exchange_id: 1,  price: 6048.30, 'date_of_day': '2010-01-04' },
+		{ stock_exchange_id: 1,  price: 6031.86, 'date_of_day': '2010-01-05' },
+		{ stock_exchange_id: 1,  price: 6034.33, 'date_of_day': '2010-01-06' },
+		{ stock_exchange_id: 1,  price: 6019.36, 'date_of_day': '2010-01-07' },
+		{ stock_exchange_id: 1,  price: 6037.61, 'date_of_day': '2010-01-08' },
+		{ stock_exchange_id: 1,  price: 6040.50, 'date_of_day': '2010-01-11' }
 	]
 )
 
@@ -28,9 +28,9 @@ shares = Share.create(
 
 portfolio_changes = PortfolioChange.create(
 	[
-    {share_id: 1, transaction_type: 'buy', quantity: 20, price_per_share: 21.300, total_cost_of_order: -458.59, 'when': '2008-10-13' },
-    {share_id: 2, transaction_type: 'buy', quantity: 32, price_per_share: 28.660, total_cost_of_order: -949.71, 'when': '2008-10-13' },
-    {share_id: 2, transaction_type: 'buy', quantity: 63, price_per_share: 15.255, total_cost_of_order: -983.66, 'when': '2011-09-19' }
+    {share_id: 1, transaction_type: 'buy', quantity: 20, price_per_share: 21.300, total_cost_of_order: -458.59, 'date_of_day': '2008-10-13' },
+    {share_id: 2, transaction_type: 'buy', quantity: 32, price_per_share: 28.660, total_cost_of_order: -949.71, 'date_of_day': '2008-10-13' },
+    {share_id: 2, transaction_type: 'buy', quantity: 63, price_per_share: 15.255, total_cost_of_order: -983.66, 'date_of_day': '2011-09-19' }
 	]
 )
 
@@ -48,17 +48,17 @@ identifiers = Identifier.create(
 
 daily_closing_prices = DailyClosingPrice.create(
 	[
-		{share_id: 1, price: 32.05, 'when': '2010-01-04'},
-		{share_id: 1, price: 32.31, 'when': '2010-01-05'},
-		{share_id: 1, price: 32.81, 'when': '2010-01-06'},
-		{share_id: 1, price: 33.10, 'when': '2010-01-07'},
-		{share_id: 1, price: 32.65, 'when': '2010-01-08'},
-		{share_id: 1, price: 32.17, 'when': '2010-01-11'},
-		{share_id: 2, price: 29.27, 'when': '2010-01-04'},
-		{share_id: 2, price: 29.29, 'when': '2010-01-05'},
-		{share_id: 2, price: 29.17, 'when': '2010-01-06'},
-		{share_id: 2, price: 28.93, 'when': '2010-01-07'},
-		{share_id: 2, price: 29.23, 'when': '2010-01-08'},
-		{share_id: 2, price: 29.36, 'when': '2010-01-11'}
+		{share_id: 1, price: 32.05, 'date_of_day': '2010-01-04'},
+		{share_id: 1, price: 32.31, 'date_of_day': '2010-01-05'},
+		{share_id: 1, price: 32.81, 'date_of_day': '2010-01-06'},
+		{share_id: 1, price: 33.10, 'date_of_day': '2010-01-07'},
+		{share_id: 1, price: 32.65, 'date_of_day': '2010-01-08'},
+		{share_id: 1, price: 32.17, 'date_of_day': '2010-01-11'},
+		{share_id: 2, price: 29.27, 'date_of_day': '2010-01-04'},
+		{share_id: 2, price: 29.29, 'date_of_day': '2010-01-05'},
+		{share_id: 2, price: 29.17, 'date_of_day': '2010-01-06'},
+		{share_id: 2, price: 28.93, 'date_of_day': '2010-01-07'},
+		{share_id: 2, price: 29.23, 'date_of_day': '2010-01-08'},
+		{share_id: 2, price: 29.36, 'date_of_day': '2010-01-11'}
 	]
 )

@@ -2,7 +2,7 @@
 
 <p>
   <strong>Share:</strong>
-  <%= @daily_closing_price.share %>
+  <%= link_to @daily_closing_price.share.name_isin, @daily_closing_price.share %>
 </p>
 
 <p>
@@ -11,8 +11,8 @@
 </p>
 
 <p>
-  <strong>When:</strong>
-  <%= @daily_closing_price.when %>
+  <strong>Date of Day:</strong>
+  <%= @daily_closing_price.date_of_day %>
 </p>
 
 <%= link_to 'Edit', edit_daily_closing_price_path(@daily_closing_price) %> |

@@ -1,0 +1,30 @@
+{
+  "title": {
+    "text": "Tagesschlusskurse aller Aktien"
+  },
+  "legend": {
+    "enabled": true
+  },
+  "series": [
+    <%
+      @datas.each_with_index do |data, d_idx|
+        @share = data[:share]
+        @daily_closing_prices = data[:daily_closing_prices]
+    %>
+    {
+      "name": "<%= @share.name %>",
+      "data": [
+        <% @daily_closing_prices.each_with_index do |daily_closing_price, dcp_idx| %>
+            [ <%= daily_closing_price.date_of_day.to_time.utc.to_i * 1000 %>, <%= daily_closing_price.price.to_f %> ]<%= dcp_idx != @daily_closing_prices.length - 1 ? ',' : '' %>
+        <% end %>
+      ],
+      "tooltip": {
+        "yDecimals": 2
+      }
+    }<%= d_idx != @datas.length - 1 ? ',' : '' %>
+    <%
+      end
+    %>
+  ]
+}
+

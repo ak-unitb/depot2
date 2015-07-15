@@ -25,7 +25,7 @@
       "name": "<%= @stock_exchange.name %>",
       "data": [
         <% @stock_exchange_normalized_prices.each_with_index do |daily_closing_price, idx| %>
-        [ <%= daily_closing_price[:when].to_i %>, <%= daily_closing_price[:percentaged] %> ]<%= idx != @stock_exchange_normalized_prices.length - 1 ? ',' : '' %>
+        [ <%= daily_closing_price[:date_of_day].to_i %>, <%= daily_closing_price[:percentaged] %> ]<%= idx != @stock_exchange_normalized_prices.length - 1 ? ',' : '' %>
         <% end %>
       ],
       "type": "area",
