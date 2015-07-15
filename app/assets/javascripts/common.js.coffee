@@ -18,4 +18,3 @@ window.showAjaxUpdateMessage = (msg, type) ->
         window.setTimeout( hideAgain , 1000 )
         false
     )
-  alert($(".messageDisplay")[0].class)

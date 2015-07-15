@@ -17,10 +17,10 @@ getTdIndexInTr = ($_td, $_tr) ->
 
 updateTdIfNoForm = ($_tr, _tdIdx, _data) ->
   $_td = $($_tr.find("td")[_tdIdx])
-  # console.group("updateTdIfNoForm")
-  # console.log($_td)
-  # console.log(_data)
-  # console.groupEnd()
+  #console.group("updateTdIfNoForm")
+  #console.log($_td)
+  #console.log(_data)
+  #console.groupEnd()
   if $_td.find("form").length == 0
     $_td.html(_data)
   null
@@ -65,7 +65,7 @@ $ ->
       success: (data, textStatus, jqXHR) ->
         # console.dir(data)
         dataRows = data.rows
-        updateTdIfNoForm $(_tr), tdIdx, dataRows[_i] for _tr in $trs #, _rowData in dataRows
+        updateTdIfNoForm $(_tr), tdIdx, dataRows[j] for _tr, j in $trs #, _rowData in dataRows
         showAjaxUpdateMessage("Möglichen Kauf errechnet!", "success")
         false
       error: (jqXHR, textStatus, errorThrown) ->
@@ -98,7 +98,7 @@ $ ->
         #console.dir(data)
         dataRows = data.rows
         #console.dir(dataRows)
-        updateTd $(_tr), tdIdx, dataRows[_j] for _tr in $trs #, _rowData in dataRows
+        updateTd $(_tr), tdIdx, dataRows[i] for _tr, i in $trs #, _rowData in dataRows
         showAjaxUpdateMessage("Möglichen Kauf errechnet!", "success")
         false
       error: (jqXHR, textStatus, errorThrown) ->

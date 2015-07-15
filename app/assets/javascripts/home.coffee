@@ -76,12 +76,12 @@ $ ->
         a.x > b.x
       extremes.sort(sortFunction)
       for extreme in extremes
-        console.group('Extreme:');
-        console.dir(extreme);
-        console.log("Datum: " + new Date(extreme.x));
-        console.groupEnd();
+        #console.group('Extreme:');
+        #console.dir(extreme);
+        #console.log("Datum: " + new Date(extreme.x));
+        #console.groupEnd();
         if (((new Date()).getTime() - (new Date(extreme.x)).getTime()) < (24 * 60 * 60 * 1000 * 15))
-          console.log('correcting the x.position of max')
+          #console.log('correcting the x.position of max')
           originalDate = new Date(extreme.x)
           extreme.title = extreme.title + " (am " + originalDate.getDate() + "." + (originalDate.getMonth() + 1) + "." + originalDate.getFullYear() + ")";
           extreme.x = extreme.x - (24 * 60 * 60 * 1000) * 270;
@@ -220,7 +220,7 @@ $ ->
       type: 'get',
       success: (data, textStatus, jqXHR) ->
         options.series = data.series
-        console.dir options
+        #console.dir options
         chart = new Highcharts.StockChart(options)
         window['home_historical_compare_chart'] = chart
         false
@@ -231,7 +231,7 @@ $ ->
     false
 
   if $('#home_historical_compare_chart_container').length > 0
-    console.log("about to initialize the chart 'home_historical_compare_chart_container'!")
+    #console.log("about to initialize the chart 'home_historical_compare_chart_container'!")
     createAllHistoricalCompareChart()
 
   window.createAllHistoricalCompareChart = createAllHistoricalCompareChart
